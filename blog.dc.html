@@ -114,8 +114,9 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const FORMSPREE_INFO = 'https://formspree.io/f/REPLACE_INFO'; // info@prosetel95.com
 class Component extends DCLogic {
-  state = { cat:'Tots', email:'', subscribed:false };
+  state = { cat:'Tots', email:'', subscribed:false, subscribing:false };
 
   renderVals(){
     const A = '#1F8A3B', C = '#E62B27', N = '#17191C';
@@ -170,7 +171,14 @@ class Component extends DCLogic {
       countLabel,
       email:this.state.email,
       onEmail:(e)=>this.setState({email:e.target.value}),
-      onSubscribe:(e)=>{ e.preventDefault(); if((this.state.email||'').includes('@')) this.setState({subscribed:true}); },
+      onSubscribe: async (e)=>{
+        e.preventDefault();
+        const em=(this.state.email||'').trim();
+        if(!em.includes('@')||this.state.subscribing) return;
+        this.setState({subscribing:true});
+        try{ await fetch(FORMSPREE_INFO,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Tipus:'Butlletí',Correu:em})}); }catch{}
+        this.setState({subscribed:true,subscribing:false});
+      },
       subscribed:this.state.subscribed,
       notSubscribed:!this.state.subscribed,
     };

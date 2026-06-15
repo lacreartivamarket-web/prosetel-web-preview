@@ -224,9 +224,12 @@
         <input type="checkbox" checked="{{ rgpd }}" onChange="{{ onRgpd }}" style="margin-top:3px;accent-color:#E62B27;width:16px;height:16px;">
         <span style="font:400 14px/1.55 'Hanken Grotesk';color:#7C8087;">Accepto la <a href="politica-privacitat.dc.html" style="color:#E62B27;" target="_blank">política de privacitat</a>. Les dades s'utilitzen únicament per gestionar la meva sol·licitud.</span>
       </label>
+      <sc-if value="{{ submitError }}" hint-placeholder-val="{{ false }}">
+      <div style="background:#FFF4F4;border:1px solid #FCA5A5;border-radius:10px;padding:12px 16px;margin-bottom:14px;font:500 14px/1.5 'Hanken Grotesk';color:#B91C1C;">Error en l'enviament. Torna-ho a provar o escriu-nos per <a href="https://wa.me/34670060555" style="color:#B91C1C;">WhatsApp</a>.</div>
+      </sc-if>
       <div style="display:flex;gap:12px;">
         <button type="button" onClick="{{ onBack }}" style="{{ backBtn }}">← Enrere</button>
-        <button type="button" onClick="{{ onSubmit }}" disabled="{{ !name || !phone || !rgpd }}" style="{{ nextBtn }}">Envia la sol·licitud &rarr;</button>
+        <button type="button" onClick="{{ onSubmit }}" disabled="{{ !name || !phone || !rgpd || submitting }}" style="{{ nextBtn }}">{{ submitLabel }}</button>
       </div>
       </sc-if>
 
@@ -251,13 +254,15 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+const FORMSPREE_COMANDES  = 'https://formspree.io/f/REPLACE_COMANDES';  // comandes@prosetel95.com
+const FORMSPREE_COMERCIAL = 'https://formspree.io/f/REPLACE_COMERCIAL'; // comercial@prosetel95.com
 class Component extends DCLogic {
   state = {
     step:1,
     profile:'', product:'', liters:'', tank:'',
     postal:'', urgency:'normal', isClient:'no',
     name:'', phone:'', email:'', channel:'whatsapp', notes:'', rgpd:false,
-    submitted:false,
+    submitted:false, submitting:false, submitError:false,
   };
 
   renderVals(){
@@ -351,11 +356,39 @@ class Component extends DCLogic {
       atStep4:!submitted&&step===4,
       atConfirm:submitted,
       nextBtn, backBtn,
+      submitting:s.submitting,
+      submitError:s.submitError,
+      submitLabel:s.submitting?'Enviant...':'Envia la sol·licitud →',
       onStep1:()=>s.profile&&this.setState({step:2}),
       onStep2:()=>s.product&&this.setState({step:3}),
       onStep3:()=>s.postal.length===5&&this.setState({step:4}),
       onBack:()=>this.setState({step:Math.max(1,step-1)}),
-      onSubmit:()=>s.name&&s.phone&&s.rgpd&&this.setState({submitted:true}),
+      onSubmit: async ()=>{
+        if(!s.name||!s.phone||!s.rgpd||s.submitting) return;
+        this.setState({submitting:true,submitError:false});
+        const endpoint=(s.profile==='empresa'||s.profile==='agricol')?FORMSPREE_COMERCIAL:FORMSPREE_COMANDES;
+        try{
+          const pL={particular:'Particular',comunitat:'Comunitat',empresa:'Empresa',agricol:'Agrícola'};
+          const prL={C:'Gasoil C',B:'Gasoil B',A:'Gasoil A','nosé':'Per definir'};
+          const uL={urgent:'Urgent',normal:'2-4 dies',flexible:'Flexible'};
+          const cL={si:'Sí',no:'No','nosé':'No ho sap'};
+          const chL={whatsapp:'WhatsApp',telefon:'Telèfon',email:'Correu'};
+          const r=await fetch(endpoint,{
+            method:'POST',
+            headers:{'Content-Type':'application/json',Accept:'application/json'},
+            body:JSON.stringify({
+              Nom:s.name,Telefon:s.phone,Correu:s.email||'—',
+              Perfil:pL[s.profile]||s.profile,Producte:prL[s.product]||s.product,
+              Litres:s.liters||'—',Dipòsit:s.tank||'—',
+              'Codi postal':s.postal,Urgència:uL[s.urgency],
+              'És client':cL[s.isClient]||s.isClient,
+              'Canal preferit':chL[s.channel],Notes:s.notes||'—',
+            }),
+          });
+          if(r.ok) this.setState({submitted:true,submitting:false});
+          else this.setState({submitting:false,submitError:true});
+        }catch{this.setState({submitting:false,submitError:true});}
+      },
       onLiters:(e)=>this.setState({liters:e.target.value}),
       onTank:(e)=>this.setState({tank:e.target.value}),
       onPostal:(e)=>this.setState({postal:e.target.value.replace(/\D/g,'').slice(0,5)}),
