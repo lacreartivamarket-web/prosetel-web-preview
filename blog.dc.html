@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Blog | Consells de gasoil, calefacció i estalvi | Prosetel-95</title>
+<meta name="description" content="Consells pràctics sobre gasoil de calefacció, gasoil agrícola i estalvi energètic, i notícies de Prosetel-95, distribuïdor de gasoil a domicili a la Catalunya central.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#F7F5F1;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#17191C;-webkit-font-smoothing:antialiased;}
+  ::selection{background:#E62B27;color:#fff;}
+  @keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div data-screen-label="Blog">
+<dc-import name="Header" active="blog" hint-size="100%,69px"></dc-import>
+
+<div style="max-width:1240px;margin:0 auto;padding:22px 24px 0;font:600 13px/1 'Hanken Grotesk';color:#9A9690;display:flex;gap:8px;align-items:center;">
+  <a href="Prosetel-95 Home.dc.html" style="color:#9A9690;text-decoration:none;" style-hover="color:#E62B27;">Inici</a>
+  <span>/</span>
+  <span style="color:#17191C;">Blog</span>
+</div>
+
+<!-- HERO -->
+<section style="padding:40px 24px 30px;">
+  <div style="max-width:820px;margin:0 auto;text-align:center;animation:fadein .5s ease;">
+    <div style="font:700 13px/1 'Archivo';letter-spacing:.16em;text-transform:uppercase;color:#E62B27;margin-bottom:18px;">El blog de Prosetel-95</div>
+    <h1 style="font:800 clamp(34px,4.6vw,56px)/1.05 'Archivo';letter-spacing:-.02em;margin:0 0 18px;text-wrap:balance;">Consells de gasoil, calefacció i estalvi</h1>
+    <p style="font:400 19px/1.55 'Hanken Grotesk';color:#55585E;max-width:36em;margin:0 auto;">Guies pràctiques per gastar menys i estar tranquil amb el gasoil de casa, del camp i del negoci — i les novetats del servei a domicili a la Catalunya central.</p>
+  </div>
+</section>
+
+<!-- CATEGORY FILTER -->
+<section style="padding:6px 24px 28px;">
+  <div style="max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+    <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="4">
+      <button type="button" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+    </sc-for>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section style="padding:0 24px 18px;">
+  <a href="{{ featured.href }}" style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0;background:#fff;border:1px solid #E7E3DB;border-radius:24px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 18px 40px rgba(20,21,24,.06);transition:transform .18s;" style-hover="transform:translateY(-3px);">
+    <div style="position:relative;min-height:300px;background:#E9E5DE;">
+      <img src="{{ featured.img }}" alt="{{ featured.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+      <span style="{{ featured.tagStyle }}">{{ featured.catLabel }}</span>
+    </div>
+    <div style="padding:44px 42px;display:flex;flex-direction:column;justify-content:center;">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;margin-bottom:14px;">Destacat · {{ featured.date }} · {{ featured.read }}</div>
+      <h2 style="font:800 clamp(26px,2.6vw,34px)/1.12 'Archivo';letter-spacing:-.02em;margin:0 0 16px;">{{ featured.title }}</h2>
+      <p style="font:400 17px/1.6 'Hanken Grotesk';color:#55585E;margin:0 0 24px;">{{ featured.excerpt }}</p>
+      <span style="font:700 15px/1 'Archivo';color:#E62B27;">Llegeix l'article &rarr;</span>
+    </div>
+  </a>
+</section>
+
+<!-- GRID -->
+<section style="padding:18px 24px 70px;">
+  <div style="max-width:1240px;margin:0 auto;">
+    <div style="font:600 14px/1 'Hanken Grotesk';color:#9A9690;margin:0 0 20px;">{{ countLabel }}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:22px;">
+      <sc-for list="{{ rest }}" as="post" hint-placeholder-count="6">
+        <a href="{{ post.href }}" style="text-decoration:none;color:inherit;background:#fff;border:1px solid #E7E3DB;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+          <div style="position:relative;height:198px;background:#E9E5DE;">
+            <img src="{{ post.img }}" alt="{{ post.alt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+            <span style="{{ post.tagStyle }}">{{ post.catLabel }}</span>
+          </div>
+          <div style="padding:24px 24px 26px;display:flex;flex-direction:column;flex:1;">
+            <div style="font:600 12px/1 'Hanken Grotesk';color:#9A9690;margin-bottom:12px;">{{ post.date }} · {{ post.read }}</div>
+            <h3 style="font:800 20px/1.2 'Archivo';letter-spacing:-.01em;margin:0 0 10px;">{{ post.title }}</h3>
+            <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">{{ post.excerpt }}</p>
+            <span style="margin-top:auto;font:700 14px/1 'Archivo';color:#E62B27;">Llegeix-lo &rarr;</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section style="background:#17191C;color:#fff;padding:58px 24px;">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:32px;align-items:center;">
+    <div>
+      <div style="font:700 13px/1 'Archivo';letter-spacing:.16em;text-transform:uppercase;color:#FF6B61;margin-bottom:14px;">Butlletí</div>
+      <h2 style="font:800 clamp(26px,3vw,38px)/1.08 'Archivo';letter-spacing:-.02em;margin:0;max-width:20ch;">Rep els consells i el preu del dia al teu correu</h2>
+    </div>
+    <div>
+      <sc-if value="{{ notSubscribed }}" hint-placeholder-val="{{ true }}">
+      <form onSubmit="{{ onSubscribe }}" novalidate="1" style="display:flex;gap:12px;flex-wrap:wrap;">
+        <input type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="El teu correu electrònic" style="flex:1;min-width:220px;padding:17px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font:500 16px/1.2 'Hanken Grotesk';outline:none;">
+        <button type="submit" style="background:#E62B27;color:#fff;font:800 16px/1 'Archivo';padding:17px 26px;border:none;border-radius:12px;cursor:pointer;" style-hover="background:#C61F1B;">Subscriu-me</button>
+      </form>
+      <p style="font:400 13px/1.5 'Hanken Grotesk';color:rgba(255,255,255,.5);margin:12px 0 0;">Un correu de tant en tant amb consells útils. Pots donar-te de baixa quan vulguis.</p>
+      </sc-if>
+      <sc-if value="{{ subscribed }}">
+      <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px 24px;font:600 16px/1.5 'Hanken Grotesk';color:#fff;animation:fadein .3s ease;">Gràcies! T'hem afegit a la llista. Aviat rebràs els nostres consells.</div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { cat:'Tots', email:'', subscribed:false };
+
+  renderVals(){
+    const A = '#1F8A3B', C = '#E62B27', N = '#17191C';
+    const tag = (accent)=> "position:absolute;top:14px;left:14px;background:"+accent+";color:#fff;font:700 11px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;border-radius:999px;";
+    const articles = [
+      { cat:'Consells', accent:C, img:'assets/truck-16.png', alt:'Camió de Prosetel-95 omplint el dipòsit de gasoil de calefacció en un domicili',
+        title:'Com abaixar la factura de gasoil de calefacció aquest hivern', date:'12 juny 2026', read:'6 min',
+        excerpt:'Set decisions senzilles —des de quan omples el dipòsit fins a com regules la caldera— que noten de debò a la factura de final de mes.' },
+      { cat:'Agrícola', accent:A, img:'assets/truck-09.png', alt:'Repostatge de gasoil agrícola a peu de tractor en una explotació',
+        title:'Gasoil B agrícola: qui el pot fer servir i com tributa', date:'9 juny 2026', read:'5 min',
+        excerpt:'Què és el gasoil bonificat, quins vehicles i maquinària el poden utilitzar i quina documentació necessites per estar tranquil.' },
+      { cat:'Consells', accent:C, img:'assets/truck-22.png', alt:'Operari de Prosetel-95 connectant la mànega per servir gasoil a domicili',
+        title:"Quan convé omplir el dipòsit? El millor moment per comprar gasoil", date:'4 juny 2026', read:'4 min',
+        excerpt:"El preu del gasoil canvia cada dia. T'expliquem com llegir la tendència i no quedar-te mai sense en plena onada de fred." },
+      { cat:'Notícies', accent:N, img:'assets/truck-12.png', alt:'Camió cisterna de Prosetel-95 fent una entrega en una nau del Berguedà',
+        title:"Ampliem el servei urgent d'hivern a tot el Berguedà", date:'28 maig 2026', read:'3 min',
+        excerpt:'Reforcem la flota i els horaris perquè, quan arribi la primera glaçada, ningú es quedi sense calefacció a la comarca.' },
+      { cat:'Agrícola', accent:A, img:'assets/truck-18.png', alt:"Camió de gasoil servint combustible al costat d'un tractor durant la campanya",
+        title:'Prepara la campanya: optimitza el consum de gasoil agrícola', date:'21 maig 2026', read:'6 min',
+        excerpt:'Planificar el reompliment, mantenir la maquinària i mesurar el consum per hectàrea: petits hàbits que estalvien molts litres.' },
+      { cat:'Consells', accent:C, img:'assets/truck-17.png', alt:"Camió cisterna de Prosetel-95 davant d'una masia de la Catalunya central",
+        title:'Gasoil A, B i C: diferències i per a què serveix cada un', date:'14 maig 2026', read:'5 min',
+        excerpt:'Automoció, agrícola o calefacció? Una guia clara per saber exactament quin gasoil necessites abans de fer la comanda.' },
+      { cat:'Consells', accent:C, img:'assets/truck-14.png', alt:'Camió de Prosetel-95 fent una entrega de gasoil de calefacció en una casa rural',
+        title:"Manteniment de la caldera: gestos que n'allarguen la vida", date:'7 maig 2026', read:'4 min',
+        excerpt:"Purgar, revisar el cremador i fer servir un bon gasoil. Tres costums senzills perquè la caldera duri anys i gasti menys." },
+      { cat:'Notícies', accent:N, img:'assets/truck-19.png', alt:'Camió de gasoil de Prosetel-95 en una base de distribució amb sitges al fons',
+        title:'Nova base de distribució per servir més ràpid el Segrià', date:'30 abril 2026', read:'3 min',
+        excerpt:'Obrim punt logístic a Almenar per escurçar els temps de lliurament a Lleida i tota la plana del Segrià.' },
+    ].map((a,i)=>({ ...a, href:'blog-article.dc.html', catLabel:a.cat, tagStyle:tag(a.accent), id:i }));
+
+    const cat = this.state.cat;
+    const filtered = cat==='Tots' ? articles : articles.filter(a=>a.cat===cat);
+
+    const cats = ['Tots','Agrícola','Consells','Notícies'];
+    const chipBase = "cursor:pointer;border-radius:999px;padding:11px 20px;font:700 14px/1 'Archivo';transition:all .15s;";
+    const chips = cats.map(c=>({
+      label:c,
+      onClick:()=>this.setState({cat:c}),
+      style: chipBase + (c===cat
+        ? "background:#E62B27;color:#fff;border:1.5px solid #E62B27;"
+        : "background:#fff;color:#55585E;border:1.5px solid #E7E3DB;"),
+    }));
+
+    const n = filtered.length;
+    const countLabel = (cat==='Tots' ? n+' articles' : n+' article'+(n===1?'':'s')+' a «'+cat+'»');
+
+    return {
+      chips,
+      featured: filtered[0] || articles[0],
+      rest: filtered.slice(1),
+      countLabel,
+      email:this.state.email,
+      onEmail:(e)=>this.setState({email:e.target.value}),
+      onSubscribe:(e)=>{ e.preventDefault(); if((this.state.email||'').includes('@')) this.setState({subscribed:true}); },
+      subscribed:this.state.subscribed,
+      notSubscribed:!this.state.subscribed,
+    };
+  }
+}
+</script>
+</body>
+</html>

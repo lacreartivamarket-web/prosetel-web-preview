@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Zones de servei | Gasoil a domicili a la Catalunya central | Prosetel-95</title>
+<meta name="description" content="Servim gasoil a domicili des de 4 bases: Solsonès, Segrià, Bages i Berguedà. Troba la teva zona i demana pressupost.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#F7F5F1;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#17191C;-webkit-font-smoothing:antialiased;}
+  ::selection{background:#E62B27;color:#fff;}
+  @keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pulsering{0%{transform:translate(-50%,-50%) scale(.55);opacity:.55}70%{transform:translate(-50%,-50%) scale(2.2);opacity:0}100%{opacity:0}}
+</style>
+</helmet>
+
+<div data-screen-label="Zones de servei">
+<dc-import name="Header" active="zones" hint-size="100%,69px"></dc-import>
+
+<div style="max-width:1240px;margin:0 auto;padding:22px 24px 0;font:600 13px/1 'Hanken Grotesk';color:#9A9690;display:flex;gap:8px;align-items:center;">
+  <a href="Prosetel-95 Home.dc.html" style="color:#9A9690;text-decoration:none;" style-hover="color:#E62B27;">Inici</a>
+  <span>/</span>
+  <span style="color:#17191C;">Zones de servei</span>
+</div>
+
+<!-- HERO -->
+<section style="padding:42px 24px 36px;">
+  <div style="max-width:780px;margin:0 auto;text-align:center;animation:fadein .5s ease;">
+    <div style="font:700 13px/1 'Archivo';letter-spacing:.16em;text-transform:uppercase;color:#E62B27;margin-bottom:20px;">Zones de servei</div>
+    <h1 style="font:800 clamp(36px,4.6vw,58px)/1.04 'Archivo';letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance;">On servim gasoil a domicili</h1>
+    <p style="font:400 19px/1.55 'Hanken Grotesk';color:#55585E;max-width:34em;margin:0 auto 30px;">Tenim 4 bases de distribució que ens permeten arribar de pressa a tot el centre de Catalunya. Tria la teva zona i et confirmem el preu del dia.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
+      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#E62B27;color:#fff;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;" style-hover="background:#C61F1B;"><span style="width:9px;height:9px;border-radius:50%;background:#fff;"></span>Preu d'avui per WhatsApp</a>
+      <a href="tel:+34973481268" style="display:inline-flex;align-items:center;background:#fff;color:#17191C;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;border:1.5px solid #DFDAD1;" style-hover="border-color:#17191C;">973 48 12 68</a>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA DE COBERTURA -->
+<section style="padding:0 24px 56px;">
+  <div style="max-width:1240px;margin:0 auto;background:#fff;border:1px solid #E7E3DB;border-radius:24px;overflow:hidden;box-shadow:0 18px 40px rgba(20,21,24,.06);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));">
+
+      <!-- MAP -->
+      <div style="position:relative;padding:26px;background:linear-gradient(180deg,#FBFAF7,#F3F0E9);">
+        <div style="position:relative;width:100%;aspect-ratio:1000/780;border-radius:18px;overflow:hidden;background:#E7EDEF;border:1px solid #DDE3E5;">
+          <svg viewBox="0 0 1000 780" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;display:block;">
+            <sc-for list="{{ cells }}" as="c" hint-placeholder-count="12">
+              <path d="{{ c.d }}" fill="{{ c.fill }}" stroke="#FAF8F3" stroke-width="2.5" stroke-linejoin="round" style="{{ c.cursor }}transition:fill .18s;" onClick="{{ c.onSelect }}" onMouseEnter="{{ c.onSelect }}"></path>
+            </sc-for>
+            <sc-for list="{{ netLines }}" as="l" hint-placeholder-count="3">
+              <line x1="{{ l.x1 }}" y1="{{ l.y1 }}" x2="{{ l.x2 }}" y2="{{ l.y2 }}" stroke="#E62B27" stroke-width="2.4" stroke-dasharray="6 7" stroke-linecap="round" opacity="0.42" style="pointer-events:none;"></line>
+            </sc-for>
+          </svg>
+          <sc-for list="{{ cells }}" as="c" hint-placeholder-count="12">
+            <div style="{{ c.labelPos }}">{{ c.name }}</div>
+          </sc-for>
+          <sc-for list="{{ mapPins }}" as="p" hint-placeholder-count="4">
+            <button type="button" onClick="{{ p.onSelect }}" onMouseEnter="{{ p.onSelect }}" aria-label="{{ p.town }}" style="{{ p.wrap }}">
+              <sc-if value="{{ p.active }}"><span style="{{ p.halo }}"></span></sc-if>
+              <span style="{{ p.pinStyle }}"><span style="{{ p.dotStyle }}"></span></span>
+              <span style="{{ p.townPos }}">{{ p.town }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px;font:600 12.5px/1 'Hanken Grotesk';color:#9A9690;">
+          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:11px;height:11px;border-radius:50%;background:#E62B27;"></span>Bases de distribució</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:14px;height:10px;border-radius:2px;background:#FBD7D2;border:1px solid #EFC2BC;"></span>Comarques que servim</span>
+        </div>
+      </div>
+
+      <!-- ZONE LIST -->
+      <div style="padding:28px 28px;display:flex;flex-direction:column;gap:9px;border-top:1px solid #EDE8DF;">
+        <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#9A9690;margin-bottom:4px;">Les nostres 4 bases</div>
+        <sc-for list="{{ rows }}" as="z" hint-placeholder-count="4">
+          <div onClick="{{ z.onSelect }}" onMouseEnter="{{ z.onSelect }}" style="{{ z.rowStyle }}">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <span style="{{ z.dotStyle }}"></span>
+              <div style="min-width:0;">
+                <div style="font:700 10.5px/1.45 'Archivo';letter-spacing:.07em;text-transform:uppercase;color:#E62B27;margin-bottom:4px;">{{ z.base }}</div>
+                <div style="font:800 18px/1.12 'Archivo';color:#17191C;">{{ z.name }}</div>
+              </div>
+            </div>
+            <sc-if value="{{ z.active }}">
+              <div style="margin-top:12px;padding-top:12px;border-top:1px dashed #EAD9D6;animation:fadein .2s ease;">
+                <p style="font:400 14px/1.5 'Hanken Grotesk';color:#6B6F76;margin:0 0 12px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · preu del dia sense compromís.</p>
+                <a href="{{ z.href }}" style="font:700 14px/1 'Archivo';color:#E62B27;text-decoration:none;" style-hover="text-decoration:underline;">{{ z.ctaArrow }}</a>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+  <p style="max-width:1240px;margin:14px auto 0;font:600 14px/1.4 'Hanken Grotesk';color:#9A9690;text-align:center;">Passa el ratolí o toca una comarca del mapa per veure'n els detalls.</p>
+</section>
+
+<!-- ZONES GRID -->
+<section style="padding:0 24px 80px;">
+  <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px;">
+    <a href="gasoil-solsona.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Solsona · oficines centrals</div>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Solsona i el Solsonès</h2>
+      <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · preu del dia sense compromís.</p>
+      <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Solsona &rarr;</span>
+    </a>
+    <a href="gasoil-lleida.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Almenar</div>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Lleida i el Segrià</h2>
+      <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · preu del dia sense compromís.</p>
+      <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Lleida &rarr;</span>
+    </a>
+    <a href="gasoil-manresa.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Sant Salvador de Guardiola</div>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Manresa i el Bages</h2>
+      <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · preu del dia sense compromís.</p>
+      <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Manresa &rarr;</span>
+    </a>
+    <a href="gasoil-bergueda.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Avià</div>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">El Berguedà</h2>
+      <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · preu del dia sense compromís.</p>
+      <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili al Berguedà &rarr;</span>
+    </a>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section style="background:#E62B27;color:#fff;padding:64px 24px;">
+  <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
+    <h2 style="font:800 clamp(26px,3.2vw,40px)/1.08 'Archivo';letter-spacing:-.02em;margin:0;max-width:22ch;">No trobes la teva població? Pregunta'ns: segur que hi arribem</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;">
+      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#17191C;font:800 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;" style-hover="transform:translateY(-2px);">WhatsApp · 670 06 05 55</a>
+      <a href="contacte.dc.html" style="display:inline-flex;align-items:center;background:transparent;color:#fff;font:700 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.55);" style-hover="border-color:#fff;">Demana pressupost</a>
+    </div>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,520px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { sel:'solsona' };
+
+  renderVals(){
+    const R = '#E62B27';
+    const V = [
+      [[108,96],[300,68],[520,108],[728,64],[898,116]],
+      [[84,284],[332,302],[514,278],[726,302],[914,286]],
+      [[130,486],[314,522],[530,484],[704,518],[888,484]],
+      [[150,696],[348,708],[514,690],[720,706],[884,670]],
+    ];
+    const grid = [
+      [ {n:'Alt Urgell'}, {n:'Cerdanya'}, {n:'Berguedà', key:'bergueda'}, {n:'Ripollès'} ],
+      [ {n:'Noguera'},    {n:'Solsonès', key:'solsona'}, {n:'Bages', key:'bages'}, {n:'Osona'} ],
+      [ {n:'Segrià', key:'segria'}, {n:'Segarra'}, {n:'Anoia'}, {n:'Vallès'} ],
+    ];
+    const zones = {
+      solsona:  { name:'Solsona i el Solsonès', base:'Base de Solsona · oficines centrals', town:'Solsona', href:'gasoil-solsona.dc.html', cta:'Gasoil a domicili a Solsona' },
+      bergueda: { name:'El Berguedà', base:"Base d'Avià", town:'Avià', href:'gasoil-bergueda.dc.html', cta:'Gasoil a domicili al Berguedà' },
+      bages:    { name:'Manresa i el Bages', base:'Base de St. Salvador de Guardiola', town:'St. Salvador', href:'gasoil-manresa.dc.html', cta:'Gasoil a domicili a Manresa' },
+      segria:   { name:'Lleida i el Segrià', base:"Base d'Almenar", town:'Almenar', href:'gasoil-lleida.dc.html', cta:'Gasoil a domicili a Lleida' },
+    };
+    const order = ['solsona','bergueda','bages','segria'];
+    const sel = this.state.sel;
+    const pick = (id)=>()=>this.setState({sel:id});
+    const noop = ()=>{};
+
+    const mid=(A,B,d)=>{ const mx=(A[0]+B[0])/2, my=(A[1]+B[1])/2; const dx=B[0]-A[0], dy=B[1]-A[1]; const L=Math.hypot(dx,dy)||1; return [mx+(-dy/L)*d, my+(dx/L)*d]; };
+    const wob=(a,b)=>((((a*7+b*13+5)%7)-3)*5);
+    const wob2=(a,b)=>((((a*11+b*5+2)%7)-3)*5);
+    const hM=[], vM=[];
+    for(let r=0;r<4;r++){ hM[r]=[]; for(let c=0;c<4;c++){ hM[r][c]=mid(V[r][c],V[r][c+1], wob(r,c)); } }
+    for(let r=0;r<3;r++){ vM[r]=[]; for(let c=0;c<5;c++){ vM[r][c]=mid(V[r][c],V[r+1][c], wob2(r,c)); } }
+    const P=(p)=>p[0].toFixed(1)+" "+p[1].toFixed(1);
+
+    const cent = {};
+    const cells = [];
+    for(let r=0;r<3;r++){
+      for(let c=0;c<4;c++){
+        const g = grid[r][c];
+        const tl=V[r][c], tr=V[r][c+1], br=V[r+1][c+1], bl=V[r+1][c];
+        const cx=(tl[0]+tr[0]+br[0]+bl[0])/4, cy=(tl[1]+tr[1]+br[1]+bl[1])/4;
+        const served = !!g.key;
+        const active = served && g.key===sel;
+        if(served) cent[g.key]={x:cx,y:cy};
+        const fill = active ? R : (served ? '#F6DCD8' : '#E6E1D8');
+        const labelColor = active ? '#FFFFFF' : (served ? '#B23A33' : '#857F74');
+        const d = "M"+P(tl)+" L"+P(hM[r][c])+" L"+P(tr)+" L"+P(vM[r][c+1])+" L"+P(br)+" L"+P(hM[r+1][c])+" L"+P(bl)+" L"+P(vM[r][c])+" Z";
+        const lyy = served ? cy-36 : cy+4;
+        cells.push({
+          d, fill,
+          cursor: served ? "cursor:pointer;" : "",
+          onSelect: served ? pick(g.key) : noop,
+          name: g.n,
+          labelPos: "position:absolute;left:"+(cx/10).toFixed(2)+"%;top:"+(lyy/7.8).toFixed(2)+"%;transform:translate(-50%,-50%);font-family:Archivo,sans-serif;font-weight:"+(served?800:700)+";font-size:"+(served?15:13)+"px;color:"+labelColor+";white-space:nowrap;letter-spacing:-.2px;text-align:center;pointer-events:none;",
+        });
+      }
+    }
+
+    const mapPins = order.map(id=>{
+      const a = id===sel; const p = cent[id]; const town = zones[id].town;
+      return {
+        active:a, town, onSelect:pick(id),
+        wrap: "position:absolute;left:"+(p.x/10).toFixed(2)+"%;top:"+(p.y/7.8).toFixed(2)+"%;transform:translate(-50%,-50%);background:none;border:none;padding:0;cursor:pointer;z-index:6;",
+        halo: "position:absolute;top:50%;left:50%;width:42px;height:42px;border-radius:50%;background:rgba(230,43,39,.22);animation:pulsering 1.8s ease-out infinite;",
+        pinStyle: "position:relative;display:block;width:"+(a?28:20)+"px;height:"+(a?28:20)+"px;border-radius:50%;background:#E62B27;border:3px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.28);transition:all .18s;",
+        dotStyle: "position:absolute;top:50%;left:50%;width:"+(a?9:6)+"px;height:"+(a?9:6)+"px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);",
+        townPos: "position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Archivo,sans-serif;font-weight:800;font-size:12.5px;color:"+(a?'#fff':'#6F6A61')+";text-shadow:"+(a?'0 1px 4px rgba(0,0,0,.4)':'0 1px 3px rgba(231,237,239,.9)')+";pointer-events:none;",
+      };
+    });
+
+    const from = cent['solsona'];
+    const netLines = ['bergueda','bages','segria'].map(id=>({ x1:from.x, y1:from.y, x2:cent[id].x, y2:cent[id].y }));
+
+    const rows = order.map(id=>{
+      const z = zones[id]; const a = id===sel;
+      return {
+        active:a, name:z.name, base:z.base, href:z.href, ctaArrow:z.cta+" →", onSelect:pick(id),
+        rowStyle: "cursor:pointer;border-radius:16px;padding:16px 18px;transition:all .18s;"
+          + (a ? "background:#FCF6F5;border:1.5px solid #F0D5D1;box-shadow:0 8px 20px rgba(230,43,39,.07);" : "background:#fff;border:1px solid #ECE7DE;"),
+        dotStyle: "width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:all .18s;"
+          + (a ? "background:"+R+";box-shadow:0 0 0 4px rgba(230,43,39,.16);" : "background:#fff;border:2px solid #E0A39E;"),
+      };
+    });
+
+    return { cells, mapPins, netLines, rows };
+  }
+}
+</script>
+</body>
+</html>

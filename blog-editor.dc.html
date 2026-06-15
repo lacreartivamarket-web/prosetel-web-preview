@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Editor d'articles · Optimitzador SEO | Prosetel-95</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#F4F3F0;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#17191C;-webkit-font-smoothing:antialiased;}
+  ::selection{background:#E62B27;color:#fff;}
+  textarea{resize:vertical;}
+  @keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div data-screen-label="Editor SEO">
+
+<!-- STICKY TOPBAR -->
+<header style="position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #E7E3DB;padding:0 24px;">
+  <div style="max-width:1440px;margin:0 auto;height:56px;display:flex;align-items:center;gap:16px;">
+    <img src="assets/prosetel-logo.png" alt="Prosetel-95" style="height:28px;display:block;">
+    <div style="flex:1;font:700 14px/1 'Archivo';color:#17191C;">Editor d'articles</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="{{ scoreStyle }}">
+        <span style="{{ scoreCircle }}">{{ score }}</span>
+        <span style="font:700 13px/1 'Archivo';">Puntuació SEO</span>
+      </div>
+      <button type="button" onClick="{{ onPublish }}" style="background:#E62B27;color:#fff;font:700 14px/1 'Archivo';padding:10px 18px;border:none;border-radius:999px;cursor:pointer;" style-hover="background:#C61F1B;">Publicar</button>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN SPLIT LAYOUT -->
+<div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:24px;padding:24px;align-items:start;">
+
+<!-- LEFT: EDITOR -->
+<div style="display:flex;flex-direction:column;gap:18px;">
+
+  <!-- SLUG + CAT -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:22px 24px;">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start;margin-bottom:18px;">
+      <div>
+        <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Títol de l'article</label>
+        <input type="text" value="{{ title }}" onChange="{{ onTitle }}" placeholder="Escriu el títol..." style="width:100%;padding:12px 14px;border:1.5px solid #E7E3DB;border-radius:10px;font:700 18px/1.3 'Archivo';color:#17191C;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;">
+      </div>
+      <div>
+        <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Categoria</label>
+        <select onChange="{{ onCat }}" style="padding:12px 14px;border:1.5px solid #E7E3DB;border-radius:10px;font:600 14px/1 'Hanken Grotesk';color:#17191C;background:#FAFAF9;outline:none;cursor:pointer;">
+          <option value="Consells">Consells</option>
+          <option value="Agrícola">Agrícola</option>
+          <option value="Notícies">Notícies</option>
+        </select>
+      </div>
+    </div>
+    <div>
+      <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Slug URL</label>
+      <div style="display:flex;align-items:center;gap:4px;padding:10px 14px;background:#F4F3F0;border:1.5px solid #E7E3DB;border-radius:10px;font:500 14px/1 'Hanken Grotesk';color:#55585E;">
+        <span style="color:#9A9690;">prosetel95.com/blog/</span><span style="color:#17191C;font-weight:700;">{{ slug }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:22px 24px;">
+    <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:12px;">Contingut (Markdown)</label>
+    <textarea value="{{ content }}" onChange="{{ onContent }}" rows="22" placeholder="Escriu o enganxa el contingut de l'article aquí..." style="width:100%;padding:14px;border:1.5px solid #E7E3DB;border-radius:12px;font:400 15px/1.7 'Hanken Grotesk';color:#2B2D32;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;"></textarea>
+    <div style="font:400 12px/1 'Hanken Grotesk';color:#9A9690;margin-top:8px;">{{ wordCount }} paraules · {{ charCount }} caràcters</div>
+  </div>
+
+  <!-- GOOGLE SNIPPET PREVIEW -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:22px 24px;">
+    <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:16px;">Previsualització Google</label>
+    <div style="border:1px solid #E7E3DB;border-radius:14px;padding:16px 18px;">
+      <div style="font:400 12px/1 'Hanken Grotesk';color:#202124;margin-bottom:2px;">https://prosetel95.com/blog/<span style="color:#202124;">{{ slug }}</span></div>
+      <div style="{{ seoTitleStyle }}">{{ seoTitle }}</div>
+      <div style="font:400 14px/1.55 'Hanken Grotesk';color:#4D5156;margin-top:4px;">{{ metaDesc }}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;">
+      <div>
+        <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">SEO Title <span style="{{ seoTitleLenStyle }}">{{ seoTitleLen }}/60</span></label>
+        <input type="text" value="{{ seoTitle }}" onChange="{{ onSeoTitle }}" placeholder="Títol per a Google..." style="width:100%;padding:11px 13px;border:1.5px solid #E7E3DB;border-radius:10px;font:500 14px/1 'Hanken Grotesk';color:#17191C;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;">
+      </div>
+      <div>
+        <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Meta desc <span style="{{ metaLenStyle }}">{{ metaLen }}/160</span></label>
+        <input type="text" value="{{ metaDesc }}" onChange="{{ onMeta }}" placeholder="Descripció per a Google..." style="width:100%;padding:11px 13px;border:1.5px solid #E7E3DB;border-radius:10px;font:500 14px/1 'Hanken Grotesk';color:#17191C;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;">
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED IMAGE -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:22px 24px;">
+    <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:12px;">Imatge destacada</label>
+    <div style="display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center;">
+      <div style="aspect-ratio:16/9;background:#E9E5DE;border-radius:12px;overflow:hidden;border:1px solid #E7E3DB;"><img src="assets/truck-16.png" alt="Imatge destacada" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div>
+        <label style="font:700 11px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Text alt (SEO)</label>
+        <input type="text" value="{{ imgAlt }}" onChange="{{ onImgAlt }}" placeholder="Descriu la imatge per a Google..." style="width:100%;padding:11px 13px;border:1.5px solid #E7E3DB;border-radius:10px;font:500 14px/1 'Hanken Grotesk';color:#17191C;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;">
+        <div style="{{ imgAltStyle }}">{{ imgAltFeedback }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT: SIDEBAR -->
+<div style="display:flex;flex-direction:column;gap:18px;position:sticky;top:72px;">
+
+  <!-- KEYPHRASE -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:20px 22px;">
+    <label style="font:700 12px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:10px;">Paraula clau principal</label>
+    <input type="text" value="{{ keyphrase }}" onChange="{{ onKeyphrase }}" placeholder="p.ex. gasoil calefaccio preu" style="width:100%;padding:11px 13px;border:1.5px solid #E7E3DB;border-radius:10px;font:500 14px/1 'Hanken Grotesk';color:#17191C;background:#FAFAF9;outline:none;" style-hover="border-color:#CCC8C0;">
+    <div style="font:400 12px/1.4 'Hanken Grotesk';color:#9A9690;margin-top:8px;">Apareix {{ keyphraseCount }} vegada{{ keyphraseCount===1?'':'s' }} al contingut (objectiu: densitat 0.5–2.5%)</div>
+  </div>
+
+  <!-- SEO CHECKLIST -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:20px 22px;">
+    <div style="font:700 13px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#17191C;margin-bottom:16px;">Anàlisi SEO</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <sc-for list="{{ seoChecks }}" as="item" hint-placeholder-count="8">
+        <div style="display:flex;align-items:flex-start;gap:10px;font:400 13px/1.5 'Hanken Grotesk';">
+          <span style="{{ item.iconStyle }}">{{ item.icon }}</span>
+          <span style="{{ item.textStyle }}">{{ item.text }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- READABILITY -->
+  <div style="background:#fff;border:1px solid #E7E3DB;border-radius:18px;padding:20px 22px;">
+    <div style="font:700 13px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#17191C;margin-bottom:16px;">Llegibilitat</div>
+    <div style="font:600 28px/1 'Archivo';color:{{ readColor }};margin-bottom:6px;">{{ readScore }}</div>
+    <div style="font:500 13px/1.4 'Hanken Grotesk';color:#9A9690;margin-bottom:16px;">{{ readLabel }}</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <sc-for list="{{ readChecks }}" as="item" hint-placeholder-count="4">
+        <div style="display:flex;align-items:flex-start;gap:10px;font:400 13px/1.5 'Hanken Grotesk';">
+          <span style="{{ item.iconStyle }}">{{ item.icon }}</span>
+          <span style="{{ item.textStyle }}">{{ item.text }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- AI ASSISTANT -->
+  <div style="background:#17191C;border-radius:18px;padding:20px 22px;color:#fff;">
+    <div style="font:700 13px/1 'Archivo';letter-spacing:.1em;text-transform:uppercase;color:#FF6B61;margin-bottom:14px;">Assistent IA</div>
+    <sc-if value="{{ aiMsg }}" hint-placeholder-val="{{ '' }}">
+    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;font:400 13px/1.6 'Hanken Grotesk';color:rgba(255,255,255,.85);margin-bottom:14px;animation:fadein .3s ease;">{{ aiMsg }}</div>
+    </sc-if>
+    <div style="display:flex;flex-direction:column;gap:9px;">
+      <button type="button" onClick="{{ onAiSuggest }}" style="{{ aiBtn }}">Suggereix millores SEO</button>
+      <button type="button" onClick="{{ onAiRewrite }}" style="{{ aiBtn }}">Reescriu la introducció</button>
+      <button type="button" onClick="{{ onAiMeta }}" style="{{ aiBtn }}">Genera meta descripció</button>
+    </div>
+    <div style="font:400 11px/1.4 'Hanken Grotesk';color:rgba(255,255,255,.35);margin-top:12px;">Funciona amb Claude AI</div>
+  </div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    title:'Com abaixar la factura de gasoil de calefacció aquest hivern',
+    content:`El gasoil de calefacció és una de les despeses grans de l'hivern, però bona part es decideix abans d'encendre la caldera.\n\n## 1. Omple el dipòsit en el moment adequat\n\nEl consell més rendible de tots és no esperar a quedar-te sense. Quan el dipòsit s'acosta a la reserva en plena onada de fred, tothom demana alhora i és quan menys marge tens per triar el dia.\n\n## 2. Aprofita el preu del dia\n\nEl gasoil cotitza cada dia, així que el preu d'avui no és el de la setmana que ve.\n\n## 3. Regula bé la caldera i el termòstat\n\nCada grau de més a casa pot suposar fins a un 7% més de consum.\n\n## 4. Evita les pèrdues de calor\n\nDe res serveix produir calor si se't escapa per les escletxes.\n\n## 5. Manté la caldera a punt\n\nUna caldera ben revisada crema millor i gasta menys.\n\n## 6. Agrupa comandes amb veïns\n\nSi vius en una zona de cases, ajuntar la comanda amb els veïns surt a compte.\n\n## 7. Tria un gasoil de qualitat\n\nEl gasoil més barat del mercat pot sortir car si embruta el cremador.`,
+    seoTitle:'Com abaixar la factura de gasoil calefacció | Prosetel-95',
+    metaDesc:"Set decisions senzilles per gastar menys en gasoil de calefacció aquest hivern: quan omplir el dipòsit, com regular la caldera i com aprofitar el preu del dia.",
+    keyphrase:'gasoil calefacció factura',
+    imgAlt:'Camió de Prosetel-95 omplint el dipòsit de gasoil de calefacció en un domicili',
+    cat:'Consells',
+    aiMsg:'',
+    aiLoading:false,
+    published:false,
+  };
+
+  renderVals(){
+    const {title,content,seoTitle,metaDesc,keyphrase,imgAlt,cat,aiMsg} = this.state;
+
+    const slugify = (s)=> s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const slug = slugify(title);
+
+    const words = (content.match(/\S+/g)||[]);
+    const wordCount = words.length;
+    const charCount = content.length;
+
+    const kp = (keyphrase||'').toLowerCase().trim();
+    const keyphraseCount = kp ? (content.toLowerCase().split(kp).length-1) : 0;
+    const density = wordCount>0 && kp ? ((keyphraseCount / wordCount)*100) : 0;
+
+    // SEO checks
+    const green='#16A34A', amber='#B45309', red='#E62B27';
+    const iconOk = (c)=> ({iconStyle:`color:${c};font-size:14px;flex-shrink:0;`, textStyle:`color:${c==='#16A34A'?'#2B2D32':'#7C6512'};`});
+    const mk = (ok,warn,msg)=> ({icon: ok?'✓':warn?'⚠':'✗', iconStyle:`color:${ok?green:warn?amber:red};font-size:13px;flex-shrink:0;`, textStyle:`color:#3A3D42;`, text:msg});
+    const h2count = (content.match(/^## /gm)||[]).length;
+    const h3count = (content.match(/^### /gm)||[]).length;
+
+    const seoChecks = [
+      mk(kp&&title.toLowerCase().includes(kp), false, `Paraula clau al títol`),
+      mk(kp&&seoTitle.toLowerCase().includes(kp), false, `Paraula clau al SEO title`),
+      mk(kp&&slug.includes(slugify(kp)), false, `Paraula clau al slug`),
+      mk(density>=0.5&&density<=2.5, density>0&&density<0.5, `Densitat paraula clau: ${density.toFixed(1)}% (objectiu 0.5–2.5%)`),
+      mk(kp&&metaDesc.toLowerCase().includes(kp), false, `Paraula clau a la meta descripció`),
+      mk(seoTitle.length>=40&&seoTitle.length<=60, seoTitle.length>0&&seoTitle.length<40, `SEO title (${seoTitle.length}/60 caràcters)`),
+      mk(metaDesc.length>=120&&metaDesc.length<=160, metaDesc.length>0&&metaDesc.length<120, `Meta descripció (${metaDesc.length}/160 caràcters)`),
+      mk(imgAlt.length>10&&kp&&imgAlt.toLowerCase().includes(kp.split(' ')[0]), imgAlt.length>0, `Alt de la imatge`),
+      mk(h2count>=2, h2count===1, `Subtítols H2 (${h2count} trobats, mínim 2)`),
+    ];
+
+    const okCount = seoChecks.filter(c=>c.icon==='✓').length;
+    const score = Math.round((okCount/seoChecks.length)*100);
+    const scoreColor = score>=75?green:score>=50?amber:red;
+
+    // Readability (Fernández-Huerta approximation)
+    const sentences = (content.match(/[.!?]+/g)||[]).length || 1;
+    const syllables = words.reduce((s,w)=>{
+      const v = (w.match(/[aeiouàáèéíïòóúü]/gi)||[]).length;
+      return s+(v||1);
+    },0);
+    const fh = 206.835 - 60.11*(syllables/words.length) - 1.02*(wordCount/sentences);
+    const readScore = Math.max(0,Math.min(100,Math.round(fh)));
+    const readColor = readScore>=60?green:readScore>=40?amber:red;
+    const readLabel = readScore>=70?'Molt fàcil de llegir':readScore>=50?'Llegibilitat acceptable':readScore>=30?'Una mica complex':'Complex';
+    const avgSentLen = wordCount/sentences;
+
+    const readChecks = [
+      mk(avgSentLen<=20, avgSentLen<=25, `Frases: ${avgSentLen.toFixed(0)} paraules de mitjana (màx. 20)`),
+      mk(wordCount>=600, wordCount>=300, `Longitud: ${wordCount} paraules (mínim recomanat 600)`),
+      mk(h2count>=2, h2count>=1, `Estructura: ${h2count} subtítols H2`),
+      mk(content.includes('\n\n'), false, `Paràgrafs separats correctament`),
+    ];
+
+    const seoTitleLen = seoTitle.length;
+    const metaLen = metaDesc.length;
+    const seoTitleLenStyle = `color:${seoTitleLen>60?red:seoTitleLen<40?amber:green};font-weight:600;`;
+    const metaLenStyle = `color:${metaLen>160?red:metaLen<120?amber:green};font-weight:600;`;
+
+    const imgAltStyle = `font:400 12px/1.4 'Hanken Grotesk';margin-top:6px;color:${imgAlt.length>10?green:red};`;
+    const imgAltFeedback = imgAlt.length>10?'✓ Text alt correcte':'Alt massa curt — descriu la imatge';
+
+    const seoTitleStyle = `font:700 19px/1.3 'Hanken Grotesk';color:#1a0dab;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;`;
+
+    const scoreStyle = `display:flex;align-items:center;gap:10px;background:#F4F3F0;border:1px solid #E7E3DB;border-radius:999px;padding:7px 14px;font:700 13px/1 'Archivo';color:${scoreColor};`;
+    const scoreCircle = `display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:${scoreColor};color:#fff;font:900 13px/1 'Archivo';`;
+
+    const aiBtn = "background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.88);font:600 13px/1.4 'Hanken Grotesk';padding:11px 14px;border-radius:10px;cursor:pointer;text-align:left;";
+
+    return {
+      title, slug, content, seoTitle, metaDesc, keyphrase, imgAlt,
+      wordCount, charCount, keyphraseCount,
+      seoChecks, score, scoreStyle, scoreCircle,
+      readScore, readColor, readLabel, readChecks,
+      seoTitleLen, metaLen, seoTitleLenStyle, metaLenStyle,
+      imgAltStyle, imgAltFeedback, seoTitleStyle,
+      aiMsg, aiBtn,
+      onTitle:(e)=>this.setState({title:e.target.value}),
+      onContent:(e)=>this.setState({content:e.target.value}),
+      onSeoTitle:(e)=>this.setState({seoTitle:e.target.value}),
+      onMeta:(e)=>this.setState({metaDesc:e.target.value}),
+      onKeyphrase:(e)=>this.setState({keyphrase:e.target.value}),
+      onImgAlt:(e)=>this.setState({imgAlt:e.target.value}),
+      onCat:(e)=>this.setState({cat:e.target.value}),
+      onPublish:()=>this.setState({published:true}),
+      onAiSuggest:()=>this._aiCall(`L'article sobre «${title}» té aquests resultats SEO: densitat ${density.toFixed(1)}%, ${h2count} H2. Suggereix 3 millores concretes en 2 frases cada una.`),
+      onAiRewrite:()=>this._aiCall(`Reescriu la introducció de l'article «${title}» per a ser més atractiva i incloure la paraula clau «${kp}» de manera natural. Màxim 60 paraules.`),
+      onAiMeta:()=>this._aiCall(`Genera una meta descripció de 150 caràcters per a l'article «${title}» que inclogui la paraula clau «${kp}» i convidi a fer clic.`),
+    };
+  }
+
+  _aiCall(prompt){
+    if(!window.claude){ this.setState({aiMsg:'(IA no disponible en mode previsualització)'}); return; }
+    this.setState({aiMsg:'Generant...'});
+    window.claude.complete(prompt).then(r=>this.setState({aiMsg:r})).catch(()=>this.setState({aiMsg:'Error de connexió.'}));
+  }
+}
+</script>
+</body>
+</html>
