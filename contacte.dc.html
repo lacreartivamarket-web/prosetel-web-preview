@@ -186,7 +186,7 @@
       </div>
       <div style="display:flex;gap:12px;">
         <button type="button" onClick="{{ onBack }}" style="{{ backBtn }}">← Enrere</button>
-        <button type="button" onClick="{{ onStep3 }}" disabled="{{ !postal || postal.length<5 }}" style="{{ nextBtn }}">Continua →</button>
+        <button type="button" onClick="{{ onStep3 }}" disabled="{{ !postal || postal.length<5 || !postalInZone }}" style="{{ nextBtn }}">Continua →</button>
       </div>
       </sc-if>
 
@@ -256,6 +256,28 @@
 <script type="text/x-dc" data-dc-script>
 const FORMSPREE_COMANDES  = 'https://formspree.io/f/REPLACE_COMANDES';  // comandes@prosetel95.com
 const FORMSPREE_COMERCIAL = 'https://formspree.io/f/REPLACE_COMERCIAL'; // comercial@prosetel95.com
+const ALL_VALID = new Set([
+  // Solsonès
+  "25280","25281","25282","25283","25284","25285","25286","25287","25288","25289",
+  // Segrià – Lleida ciutat
+  "25001","25002","25003","25004","25005","25006","25007","25008","25009","25010",
+  // Segrià – municipis
+  "25021","25110","25111","25112","25120","25121","25122","25123","25124","25125",
+  "25126","25127","25128","25129","25130","25131","25132","25133","25134","25135",
+  "25140","25150","25155","25160","25161","25170","25171","25172","25173","25174",
+  "25180","25181","25182","25183","25184","25185","25186","25187","25190","25191",
+  "25192","25193","25194","25195","25196","25197","25198","25199",
+  // Bages – Manresa
+  "08240","08241","08242","08243","08244","08245","08246","08247","08248","08249",
+  // Bages – municipis
+  "08250","08251","08253","08260","08261","08262","08263","08270","08271","08272",
+  "08273","08274","08275","08276","08278","08279","08280","08281","08285","08290",
+  "08291","08292","08293","08294","08295","08296","08297","08298","08299",
+  // Berguedà
+  "08600","08610","08611","08612","08613","08614","08615","08616","08617","08618",
+  "08619","08620","08621","08622","08623","08624","08625","08626","08627","08628",
+  "08629","08630","08635","08639","08640","08660","08670","08680","08690",
+]);
 class Component extends DCLogic {
   state = {
     step:1,
@@ -327,9 +349,16 @@ class Component extends DCLogic {
     ];
 
     // postal validation
-    const postalOk = /^\d{5}$/.test(s.postal);
-    const postalBorder = s.postal.length===5?(postalOk?'#16A34A':'#E62B27'):'#E7E3DB';
-    const postalFeedback = s.postal.length===0?'Introdueix el codi postal de 5 dígits':postalOk?'✓ Codi postal vàlid':'Codi postal no vàlid';
+    const postalOk = s.postal.length===5;
+    const postalInZone = postalOk && ALL_VALID.has(s.postal);
+    const postalBorder = postalOk?(postalInZone?'#16A34A':'#E62B27'):'#E7E3DB';
+    const postalFeedback = s.postal.length===0
+      ? 'Introdueix el codi postal de 5 dígits'
+      : !postalOk
+        ? 'Codi postal no vàlid'
+        : postalInZone
+          ? 'Perfecte, fem servei a la teva zona ✓'
+          : 'Ho sentim, aquest codi postal queda fora de la nostra zona de servei actual. Si vols, pots trucar-nos al 973 48 12 68 o escriure\'ns per WhatsApp i ho comprovem.';
 
     const nextBtnBase = "flex:1;padding:15px 26px;border-radius:999px;font:700 16px/1 'Archivo';cursor:pointer;transition:all .15s;border:none;";
     const nextBtn = nextBtnBase+"background:#E62B27;color:#fff;";
@@ -347,7 +376,7 @@ class Component extends DCLogic {
       steps, stepBarStyle,
       profiles, products, urgencies, clientOpts, channels,
       profile:s.profile, product:s.product,
-      postal:s.postal, postalBorder, postalFeedback,
+      postal:s.postal, postalBorder, postalFeedback, postalInZone,
       name:s.name, phone:s.phone, email:s.email, notes:s.notes, rgpd:s.rgpd,
       confirmMsg, confirmSummary,
       atStep1:!submitted&&step===1,
@@ -361,7 +390,7 @@ class Component extends DCLogic {
       submitLabel:s.submitting?'Enviant...':'Envia la sol·licitud →',
       onStep1:()=>s.profile&&this.setState({step:2}),
       onStep2:()=>s.product&&this.setState({step:3}),
-      onStep3:()=>s.postal.length===5&&this.setState({step:4}),
+      onStep3:()=>postalInZone&&this.setState({step:4}),
       onBack:()=>this.setState({step:Math.max(1,step-1)}),
       onSubmit: async ()=>{
         if(!s.name||!s.phone||!s.rgpd||s.submitting) return;
