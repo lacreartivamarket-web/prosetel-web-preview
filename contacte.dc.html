@@ -9,19 +9,19 @@
 <x-dc>
 <helmet>
 <title>Contacte i Pressupost | Prosetel-95 | Gasoil a domicili</title>
-<meta name="description" content="Demana el preu del gasoil de calefacció, agrícola o d'automoció al teu domicili. Servei a tota la Catalunya central en 24-48 h.">
+<meta name="description" content="Demana pressupost del gasoil de calefacció, agrícola o d'automoció al teu domicili. Servei a tota la Catalunya central en 24-48 h.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://prosetel95.com/contacte/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://prosetel95.com/contacte/">
 <meta property="og:title" content="Contacte i Pressupost | Prosetel-95">
-<meta property="og:description" content="Demana el preu del gasoil de calefacció, agrícola o d'automoció al teu domicili. Servei ràpid a la Catalunya central.">
+<meta property="og:description" content="Demana pressupost del gasoil de calefacció, agrícola o d'automoció al teu domicili. Servei ràpid a la Catalunya central.">
 <meta property="og:image" content="https://prosetel95.com/assets/og-prosetel95.jpg">
 <meta property="og:locale" content="ca_ES">
 <meta property="og:site_name" content="Prosetel-95">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Contacte i Pressupost | Prosetel-95">
-<meta name="twitter:description" content="Demana el preu del gasoil de calefacció, agrícola o d'automoció al teu domicili.">
+<meta name="twitter:description" content="Demana pressupost del gasoil de calefacció, agrícola o d'automoció al teu domicili.">
 <meta name="twitter:image" content="https://prosetel95.com/assets/og-prosetel95.jpg">
 <meta name="geo.region" content="ES-CT">
 <meta name="geo.placename" content="Solsona, Solsonès, Catalunya">
@@ -54,7 +54,7 @@
   <div style="max-width:720px;text-align:center;margin:0 auto;animation:fadein .45s ease;">
     <div style="font:700 13px/1 'Archivo';letter-spacing:.16em;text-transform:uppercase;color:#E62B27;margin-bottom:16px;">Contacte i Pressupost</div>
     <h1 style="font:800 clamp(32px,4.4vw,52px)/1.05 'Archivo';letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance;">Demana el teu preu en menys d'un minut</h1>
-    <p style="font:400 18px/1.6 'Hanken Grotesk';color:#55585E;margin:0;">Omple el formulari o contacta'ns directament. Confirmem el preu del dia i la data de lliurament sense compromís.</p>
+    <p style="font:400 18px/1.6 'Hanken Grotesk';color:#55585E;margin:0;">Omple el formulari o contacta'ns directament. Et preparem el pressupost i la data de lliurament sense compromís.</p>
   </div>
 </section>
 
@@ -370,7 +370,7 @@ class Component extends DCLogic {
     const channelLabels = {whatsapp:'WhatsApp',telefon:'Telèfon',email:'Correu'};
 
     const confirmSummary = `${profileLabels[s.profile]||s.profile} · ${productLabels[s.product]||''} · ${s.liters} L · CP ${s.postal} · ${urgencyLabels[s.urgency]} · Contacte via ${channelLabels[s.channel]}`;
-    const confirmMsg = `Gràcies, ${s.name||''}! En breus, l'equip de Prosetel-95 et confirmarà el preu del dia i la data de lliurament per ${channelLabels[s.channel]}.`;
+    const confirmMsg = `Gràcies, ${s.name||''}! En breus, l'equip de Prosetel-95 et prepararà el pressupost i la data de lliurament per ${channelLabels[s.channel]}.`;
 
     return {
       steps, stepBarStyle,
