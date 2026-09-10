@@ -109,25 +109,25 @@
   <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px;">
     <a href="gasoil-solsona.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Solsona · oficines centrals</div>
-      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Solsona i el Solsonès</h2>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Solsonès</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Solsona &rarr;</span>
     </a>
     <a href="gasoil-lleida.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Almenar</div>
-      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Lleida i el Segrià</h2>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Segrià</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Lleida &rarr;</span>
     </a>
     <a href="gasoil-manresa.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Sant Salvador de Guardiola</div>
-      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Manresa i el Bages</h2>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Bages</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Manresa &rarr;</span>
     </a>
     <a href="gasoil-bergueda.dc.html" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Avià</div>
-      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">El Berguedà</h2>
+      <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Berguedà</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili al Berguedà &rarr;</span>
     </a>
@@ -166,10 +166,10 @@ class Component extends DCLogic {
       [ {n:'Segrià', key:'segria'}, {n:'Segarra'}, {n:'Anoia'}, {n:'Vallès'} ],
     ];
     const zones = {
-      solsona:  { name:'Solsona i el Solsonès', base:'Base de Solsona · oficines centrals', town:'Solsona', href:'gasoil-solsona.dc.html', cta:'Gasoil a domicili a Solsona' },
-      bergueda: { name:'El Berguedà', base:"Base d'Avià", town:'Avià', href:'gasoil-bergueda.dc.html', cta:'Gasoil a domicili al Berguedà' },
-      bages:    { name:'Manresa i el Bages', base:'Base de St. Salvador de Guardiola', town:'St. Salvador', href:'gasoil-manresa.dc.html', cta:'Gasoil a domicili a Manresa' },
-      segria:   { name:'Lleida i el Segrià', base:"Base d'Almenar", town:'Almenar', href:'gasoil-lleida.dc.html', cta:'Gasoil a domicili a Lleida' },
+      solsona:  { name:'Solsonès', base:'Base de Solsona · oficines centrals', town:'Solsona', href:'gasoil-solsona.dc.html', cta:'Gasoil a domicili a Solsona' },
+      bergueda: { name:'Berguedà', base:"Base d'Avià", town:'Avià', href:'gasoil-bergueda.dc.html', cta:'Gasoil a domicili al Berguedà' },
+      bages:    { name:'Bages', base:'Base de St. Salvador de Guardiola', town:'St. Salvador', href:'gasoil-manresa.dc.html', cta:'Gasoil a domicili a Manresa' },
+      segria:   { name:'Segrià', base:"Base d'Almenar", town:'Almenar', href:'gasoil-lleida.dc.html', cta:'Gasoil a domicili a Lleida' },
     };
     const order = ['solsona','bergueda','bages','segria'];
     const sel = this.state.sel;
