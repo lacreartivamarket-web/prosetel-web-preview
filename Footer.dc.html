@@ -14,10 +14,58 @@
 <style>
   *{box-sizing:border-box;}
   body{margin:0;}
+  /* Consentiment de cookies: ocult per defecte; visible només mentre cal decidir */
+  #cookie-banner{display:none;}
+  html[data-cc="ask"] #cookie-banner{display:block;}
 </style>
+<script>
+(function(){
+  var NAME = "cookie_consent";
+  var YEAR = 31536000; // 12 mesos, segons la Política de cookies
+  function read(n){
+    var m = document.cookie.match(new RegExp("(?:^|; )" + n + "=([^;]*)"));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function write(n, v){
+    document.cookie = n + "=" + encodeURIComponent(v) + ";max-age=" + YEAR + ";path=/;SameSite=Lax";
+  }
+  function mode(m){ document.documentElement.setAttribute("data-cc", m); }
+  function enableAnalytics(){
+    // Punt d'activació de Google Analytics 4.
+    // Encara no hi ha cap ID de mesurament configurat: fins que s'afegeixi,
+    // acceptar no carrega cap script de tercers ni escriu cookies _ga/_gid.
+  }
+  function decide(v){ write(NAME, v); mode("set"); if (v === "all") enableAnalytics(); }
+  document.addEventListener("click", function(e){
+    var el = e.target && e.target.closest ? e.target.closest("#cc-accept,#cc-reject,#cc-manage") : null;
+    if (!el) return;
+    e.preventDefault();
+    if (el.id === "cc-accept") decide("all");
+    else if (el.id === "cc-reject") decide("essential");
+    else mode("ask"); // reobre el banner des de "Gestionar cookies"
+  });
+  var current = read(NAME);
+  mode(current ? "set" : "ask");
+  if (current === "all") enableAnalytics();
+})();
+</script>
 </helmet>
 
 <div>
+  <!-- ===== COOKIE CONSENT BANNER ===== -->
+  <div id="cookie-banner" role="dialog" aria-label="Consentiment de cookies" aria-live="polite" style="position:fixed;left:0;right:0;bottom:0;z-index:400;background:#17191C;border-top:3px solid #E62B27;padding:20px 24px;box-shadow:0 -10px 34px rgba(0,0,0,.32);">
+    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;">
+      <div style="font:400 14px/1.6 'Hanken Grotesk';color:rgba(255,255,255,.72);max-width:66ch;">
+        <strong style="display:block;font:800 16px/1.3 'Archivo';color:#fff;margin-bottom:6px;">Aquest web utilitza cookies</strong>
+        Fem servir cookies tècniques pròpies, necessàries per al funcionament del web, i cookies analítiques de tercers per a mesurar les visites de manera anònima. Podeu acceptar-les o rebutjar-les. Més informació a la <a href="politica-cookies.dc.html" style="color:#FF6B61;font-weight:600;text-decoration:none;" style-hover="text-decoration:underline;">Política de cookies</a>.
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex-shrink:0;">
+        <button type="button" id="cc-reject" style="background:transparent;border:1.5px solid rgba(255,255,255,.32);color:#fff;font:700 14px/1 'Archivo';padding:13px 20px;border-radius:999px;cursor:pointer;" style-hover="border-color:#fff;">Rebutjar</button>
+        <button type="button" id="cc-accept" style="background:#E62B27;border:none;color:#fff;font:700 14px/1 'Archivo';padding:14px 22px;border-radius:999px;cursor:pointer;" style-hover="background:#C61F1B;">Acceptar</button>
+      </div>
+    </div>
+  </div>
+
   <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="position:fixed;right:18px;bottom:18px;z-index:300;display:inline-flex;align-items:center;gap:9px;background:#E62B27;color:#fff;font:700 14px/1 'Archivo';padding:14px 18px;border-radius:999px;text-decoration:none;box-shadow:0 12px 30px rgba(230,43,39,.4);" style-hover="background:#C61F1B;">
     <span style="width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.35);"></span>
     Demana pressupost
@@ -85,6 +133,7 @@
           <a href="avis-legal.dc.html" style="color:rgba(255,255,255,.5);text-decoration:none;" style-hover="color:#fff;">Avís legal</a>
           <a href="politica-privacitat.dc.html" style="color:rgba(255,255,255,.5);text-decoration:none;" style-hover="color:#fff;">Política de privacitat</a>
           <a href="politica-cookies.dc.html" style="color:rgba(255,255,255,.5);text-decoration:none;" style-hover="color:#fff;">Cookies</a>
+          <button type="button" id="cc-manage" style="background:none;border:none;padding:0;font:400 13px/1.4 'Hanken Grotesk';color:rgba(255,255,255,.5);cursor:pointer;text-align:left;" style-hover="color:#fff;">Gestionar cookies</button>
         </div>
         <div>© 2026 Prosetel-95 S.L.U. · CIF B25337270</div>
       </div>
