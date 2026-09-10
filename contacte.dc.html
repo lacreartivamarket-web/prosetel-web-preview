@@ -166,7 +166,7 @@
       <div style="margin-bottom:20px;">
         <label style="font:700 12px/1 'Archivo';letter-spacing:.08em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:8px;">Codi postal</label>
         <input type="text" value="{{ postal }}" onChange="{{ onPostal }}" placeholder="p.ex. 25280" maxlength="5" style="width:100%;padding:14px 16px;border:1.5px solid {{ postalBorder }};border-radius:12px;font:600 18px/1 'Archivo';color:#17191C;background:#FAFAF9;outline:none;">
-        <div style="font:400 13px/1.4 'Hanken Grotesk';margin-top:6px;color:#9A9690;">{{ postalFeedback }}</div>
+        <div style="font:500 13px/1.4 'Hanken Grotesk';margin-top:6px;color:{{ postalFeedbackColor }};">{{ postalFeedback }}</div>
       </div>
       <div style="margin-bottom:20px;">
         <label style="font:700 12px/1 'Archivo';letter-spacing:.08em;text-transform:uppercase;color:#9A9690;display:block;margin-bottom:10px;">Urgència</label>
@@ -186,7 +186,7 @@
       </div>
       <div style="display:flex;gap:12px;">
         <button type="button" onClick="{{ onBack }}" style="{{ backBtn }}">← Enrere</button>
-        <button type="button" onClick="{{ onStep3 }}" disabled="{{ !postal || postal.length<5 || !postalInZone }}" style="{{ nextBtn }}">Continua →</button>
+        <button type="button" onClick="{{ onStep3 }}" disabled="{{ step3Blocked }}" style="{{ nextBtn }}">Continua →</button>
       </div>
       </sc-if>
 
@@ -229,7 +229,7 @@
       </sc-if>
       <div style="display:flex;gap:12px;">
         <button type="button" onClick="{{ onBack }}" style="{{ backBtn }}">← Enrere</button>
-        <button type="button" onClick="{{ onSubmit }}" disabled="{{ !name || !phone || !rgpd || submitting }}" style="{{ nextBtn }}">{{ submitLabel }}</button>
+        <button type="button" onClick="{{ onSubmit }}" disabled="{{ submitBlocked }}" style="{{ nextBtn }}">{{ submitLabel }}</button>
       </div>
       </sc-if>
 
@@ -247,6 +247,15 @@
       </sc-if>
 
     </div>
+
+    <!-- NOTA FINANÇAMENT -->
+    <div style="margin-top:24px;background:#FFF4F4;border:1px solid #F0DEDC;border-radius:20px;padding:28px 30px;">
+      <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Finançament</div>
+      <h3 style="font:800 22px/1.15 'Archivo';letter-spacing:-.015em;margin:0 0 10px;">Finança el teu gasoil en còmodes terminis</h3>
+      <p style="font:400 16px/1.6 'Hanken Grotesk';color:#55585E;margin:0 0 18px;">Oferim la possibilitat de fraccionar el pagament del teu gasoil en 3, 6 o 9 mesos a través d'una entitat bancària. Sense complicacions i amb total flexibilitat.</p>
+      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;background:#17191C;color:#fff;font:700 15px/1 'Archivo';padding:14px 22px;border-radius:999px;text-decoration:none;" style-hover="background:#000;">Demana'ns informació sobre el finançament &rarr;</a>
+    </div>
+
   </div>
 </section>
 
@@ -256,27 +265,53 @@
 <script type="text/x-dc" data-dc-script>
 const FORMSPREE_COMANDES  = 'https://formspree.io/f/REPLACE_COMANDES';  // comandes@prosetel95.com
 const FORMSPREE_COMERCIAL = 'https://formspree.io/f/REPLACE_COMERCIAL'; // comercial@prosetel95.com
-const ALL_VALID = new Set([
-  // Solsonès
-  "25280","25281","25282","25283","25284","25285","25286","25287","25288","25289",
-  // Segrià – Lleida ciutat
-  "25001","25002","25003","25004","25005","25006","25007","25008","25009","25010",
-  // Segrià – municipis
-  "25021","25110","25111","25112","25120","25121","25122","25123","25124","25125",
-  "25126","25127","25128","25129","25130","25131","25132","25133","25134","25135",
-  "25140","25150","25155","25160","25161","25170","25171","25172","25173","25174",
-  "25180","25181","25182","25183","25184","25185","25186","25187","25190","25191",
-  "25192","25193","25194","25195","25196","25197","25198","25199",
-  // Bages – Manresa
-  "08240","08241","08242","08243","08244","08245","08246","08247","08248","08249",
-  // Bages – municipis
-  "08250","08251","08253","08260","08261","08262","08263","08270","08271","08272",
-  "08273","08274","08275","08276","08278","08279","08280","08281","08285","08290",
-  "08291","08292","08293","08294","08295","08296","08297","08298","08299",
-  // Berguedà
-  "08600","08610","08611","08612","08613","08614","08615","08616","08617","08618",
-  "08619","08620","08621","08622","08623","08624","08625","08626","08627","08628",
-  "08629","08630","08635","08639","08640","08660","08670","08680","08690",
+// Zona de servei verificada — dades oficials del client
+const ALL_VALID_CP = new Set([
+  // ALT URGELL
+  "25715","25717","25718","25289","25792","25794","25793","25790","25713","25714",
+  "25795","25796","25797","25700","25710","25719","25788","25798","25799",
+  // ANOIA
+  "08717","08294","08280","08281","08283","08289","08292","08781","08700","08712","08719",
+  // BAGES
+  "08256","08271","08660","08262","08261","08296","08255","08297","08251","08260",
+  "08259","08672","08240","08241","08242","08243","08199","08298","08691","08270",
+  "08269","08670","08671","08263","08253","08295","08650","08272","08250","08251",
+  // BAIX LLOBREGAT
+  "08630","08293",
+  // BERGUEDÀ
+  "08610","08611","08695","08600","08619","08617","08680","08693","08696","08698",
+  "08614","08694","08605","08612","08613","08692","08517","08697","08699","08673",
+  // GARRIGUES
+  "25450","25140","25400","25460","25152","25177","25430","25412","25471","25420","25163","25457",
+  // LLUÇANÈS
+  "08514","08515","08516","08513",
+  // NOGUERA
+  "25611","25691","25692","25135","25130","25600","25336","25613","25615","25136",
+  "25122","25139","25315","25616","25610","25612","25614","25617","25680",
+  // OSONA
+  "08519","08570",
+  // PALLARS JUSSÀ
+  "25631","25632","25633","25634",
+  // PLA D'URGELL
+  "25262","25220","25142","25144","25265","25244","25241","25260","25261","25240",
+  "25242","25230","25243","25222","25141","25264","25245",
+  // SEGARRA
+  "25214","25215","25216","25271","25753",
+  // SEGRIÀ
+  "25182","25221","25171","25180","25193","25120","25121","25161","25125","25100",
+  "25109","25126","25110","25150","25132","25137","25001","25002","25003","25004",
+  "25005","25006","25007","25008","25111","25113","25191","25192","25194","25195",
+  "25196","25197","25198","25199","25172","25134","25153","25124","25175","25181",
+  "25173","25176","25170","25131","25690","25133","25660",
+  // SOLSONÈS
+  "25752","25753","25290","25284","25285","25283","25288","25281","08281","25286",
+  "25280","25287","25282","25750","25751",
+  // URGELL
+  "25320","25266","25250","25332","25263","25300","25350","25351","25352","25353",
+  "25354","25360","25268","25269",
+  // VALLÈS OCCIDENTAL
+  "08299","08201","08202","08203","08204","08205","08206","08207","08208",
+  "08221","08222","08223","08224","08225","08226","08227","08228","08233","08232",
 ]);
 class Component extends DCLogic {
   state = {
@@ -350,8 +385,9 @@ class Component extends DCLogic {
 
     // postal validation
     const postalOk = s.postal.length===5;
-    const postalInZone = postalOk && ALL_VALID.has(s.postal);
+    const postalInZone = postalOk && ALL_VALID_CP.has(s.postal);
     const postalBorder = postalOk?(postalInZone?'#16A34A':'#E62B27'):'#E7E3DB';
+    const postalFeedbackColor = postalOk?(postalInZone?'#16A34A':'#E62B27'):'#9A9690';
     const postalFeedback = s.postal.length===0
       ? 'Introdueix el codi postal de 5 dígits'
       : !postalOk
@@ -376,7 +412,9 @@ class Component extends DCLogic {
       steps, stepBarStyle,
       profiles, products, urgencies, clientOpts, channels,
       profile:s.profile, product:s.product,
-      postal:s.postal, postalBorder, postalFeedback, postalInZone,
+      postal:s.postal, postalBorder, postalFeedback, postalFeedbackColor, postalInZone,
+      step3Blocked: !postalInZone,
+      submitBlocked: !s.name || !s.phone || !s.rgpd || s.submitting,
       name:s.name, phone:s.phone, email:s.email, notes:s.notes, rgpd:s.rgpd,
       confirmMsg, confirmSummary,
       atStep1:!submitted&&step===1,
