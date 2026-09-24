@@ -1,0 +1,27 @@
+# URLs netes: /gasoil-agricola serveix gasoil-agricola.dc.html
+Options -MultiViews
+RewriteEngine On
+
+# --- Redireccions 301 de les URLs antigues (només peticions del navegador) ---
+
+# Portada amb nom de fitxer -> /
+RewriteCond %{THE_REQUEST} \s/+(Prosetel-95(\s|%20)Home\.dc\.html|index\.html|home\.html)[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+
+# pagina.dc.html -> /pagina (Header i Footer són components i es carreguen tal qual)
+RewriteCond %{THE_REQUEST} \s/+([A-Za-z0-9-]+)\.dc\.html[\s?]
+RewriteCond %1 !^(Header|Footer)$
+RewriteRule ^ /%1 [R=301,L]
+
+# /pagina/ -> /pagina
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([A-Za-z0-9-]+)/$ /$1 [R=301,L]
+
+# --- Reescriptures internes ---
+
+RewriteRule ^$ "Prosetel-95 Home.dc.html" [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.dc.html -f
+RewriteRule ^([A-Za-z0-9-]+)$ $1.dc.html [L]

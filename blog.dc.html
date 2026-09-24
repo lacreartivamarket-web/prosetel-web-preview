@@ -26,7 +26,7 @@
 <dc-import name="Header" active="blog" hint-size="100%,69px"></dc-import>
 
 <div style="max-width:1240px;margin:0 auto;padding:22px 24px 0;font:600 13px/1 'Hanken Grotesk';color:#9A9690;display:flex;gap:8px;align-items:center;">
-  <a href="Prosetel-95 Home.dc.html" style="color:#9A9690;text-decoration:none;" style-hover="color:#E62B27;">Inici</a>
+  <a href="./" style="color:#9A9690;text-decoration:none;" style-hover="color:#E62B27;">Inici</a>
   <span>/</span>
   <span style="color:#17191C;">Blog</span>
 </div>
@@ -146,7 +146,7 @@ class Component extends DCLogic {
       { cat:'Notícies', accent:N, img:'./assets/truck-19.png', alt:'Camió de gasoil de Prosetel-95 en una base de distribució amb sitges al fons',
         title:'Nova base de distribució per servir més ràpid el Segrià', date:'30 abril 2026', read:'3 min',
         excerpt:'Obrim punt logístic a Almenar per escurçar els temps de lliurament a Lleida i tota la plana del Segrià.' },
-    ].map((a,i)=>({ ...a, href:'blog-article.dc.html', catLabel:a.cat, tagStyle:tag(a.accent), id:i }));
+    ].map((a,i)=>({ ...a, href:'blog-article', catLabel:a.cat, tagStyle:tag(a.accent), id:i }));
 
     const cat = this.state.cat;
     const filtered = cat==='Tots' ? articles : articles.filter(a=>a.cat===cat);
