@@ -1,5 +1,13 @@
 # URLs netes: /gasoil-agricola serveix gasoil-agricola.dc.html
 Options -MultiViews
+
+# Pàgines, components i script: el navegador ha de comprovar sempre si hi ha
+# una versió nova (si no, capçalera i peu antics es barregen amb pàgines noves)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html|js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
 RewriteEngine On
 
 # --- Redireccions 301 de les URLs antigues (només peticions del navegador) ---
