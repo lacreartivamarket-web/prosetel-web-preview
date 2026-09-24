@@ -16,8 +16,8 @@
 <style>
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{margin:0;background:#F7F5F1;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#17191C;-webkit-font-smoothing:antialiased;}
-  ::selection{background:#E62B27;color:#fff;}
+  body{margin:0;background-color:#F7F5F1;font-family:'Hanken Grotesk',system-ui,sans-serif;color:#17191C;-webkit-font-smoothing:antialiased;}
+  ::selection{background-color:#E62B27;color:#fff;}
   @keyframes fadein{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes pulsering{0%{transform:translate(-50%,-50%) scale(.55);opacity:.55}70%{transform:translate(-50%,-50%) scale(2.2);opacity:0}100%{opacity:0}}
 </style>
@@ -39,20 +39,20 @@
     <h1 style="font:800 clamp(36px,4.6vw,58px)/1.04 'Archivo';letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance;">On servim gasoil a domicili</h1>
     <p style="font:400 19px/1.55 'Hanken Grotesk';color:#55585E;max-width:34em;margin:0 auto 30px;">Tenim 4 bases de distribució que ens permeten arribar de pressa a tot el centre de Catalunya. Tria la teva zona i et preparem el pressupost.</p>
     <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
-      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#E62B27;color:#fff;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;" style-hover="background:#C61F1B;"><span style="width:9px;height:9px;border-radius:50%;background:#fff;"></span>Pressupost per WhatsApp</a>
-      <a href="tel:+34973481268" style="display:inline-flex;align-items:center;background:#fff;color:#17191C;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;border:1.5px solid #DFDAD1;" style-hover="border-color:#17191C;">973 48 12 68</a>
+      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background-color:#E62B27;color:#fff;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;" style-hover="background-color:#C61F1B;"><span style="width:9px;height:9px;border-radius:50%;background-color:#fff;"></span>Pressupost per WhatsApp</a>
+      <a href="tel:+34973481268" style="display:inline-flex;align-items:center;background-color:#fff;color:#17191C;font:700 17px/1 'Archivo';padding:18px 26px;border-radius:999px;text-decoration:none;border:1.5px solid #DFDAD1;" style-hover="border-color:#17191C;">973 48 12 68</a>
     </div>
   </div>
 </section>
 
 <!-- MAPA DE COBERTURA -->
 <section style="padding:0 24px 56px;">
-  <div style="max-width:1240px;margin:0 auto;background:#fff;border:1px solid #E7E3DB;border-radius:24px;overflow:hidden;box-shadow:0 18px 40px rgba(20,21,24,.06);">
+  <div style="max-width:1240px;margin:0 auto;background-color:#fff;border:1px solid #E7E3DB;border-radius:24px;overflow:hidden;box-shadow:0 18px 40px rgba(20,21,24,.06);">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));">
 
       <!-- MAP -->
       <div style="position:relative;padding:26px;background:linear-gradient(180deg,#FBFAF7,#F3F0E9);">
-        <div style="position:relative;width:100%;aspect-ratio:1000/780;border-radius:18px;overflow:hidden;background:#E7EDEF;border:1px solid #DDE3E5;">
+        <div style="position:relative;width:100%;aspect-ratio:1000/780;border-radius:18px;overflow:hidden;background-color:#E7EDEF;border:1px solid #DDE3E5;">
           <svg viewBox="0 0 1000 780" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;display:block;">
             <sc-for list="{{ cells }}" as="c" hint-placeholder-count="12">
               <path d="{{ c.d }}" fill="{{ c.fill }}" stroke="#FAF8F3" stroke-width="2.5" stroke-linejoin="round" style="{{ c.cursor }}transition:fill .18s;" onClick="{{ c.onSelect }}" onMouseEnter="{{ c.onSelect }}"></path>
@@ -73,8 +73,8 @@
           </sc-for>
         </div>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px;font:600 12.5px/1 'Hanken Grotesk';color:#9A9690;">
-          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:11px;height:11px;border-radius:50%;background:#E62B27;"></span>Bases de distribució</span>
-          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:14px;height:10px;border-radius:2px;background:#FBD7D2;border:1px solid #EFC2BC;"></span>Comarques que servim</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:11px;height:11px;border-radius:50%;background-color:#E62B27;"></span>Bases de distribució</span>
+          <span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:14px;height:10px;border-radius:2px;background-color:#FBD7D2;border:1px solid #EFC2BC;"></span>Comarques que servim</span>
         </div>
       </div>
 
@@ -107,25 +107,25 @@
 <!-- ZONES GRID -->
 <section style="padding:0 24px 80px;">
   <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:20px;">
-    <a href="gasoil-solsona" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+    <a href="gasoil-solsona" style="text-decoration:none;background-color:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Solsona · oficines centrals</div>
       <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Solsonès</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Solsona &rarr;</span>
     </a>
-    <a href="gasoil-lleida" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+    <a href="gasoil-lleida" style="text-decoration:none;background-color:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Almenar</div>
       <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Segrià</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Lleida &rarr;</span>
     </a>
-    <a href="gasoil-manresa" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+    <a href="gasoil-manresa" style="text-decoration:none;background-color:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base de Sant Salvador de Guardiola</div>
       <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Bages</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
       <span style="font:700 15px/1 'Archivo';color:#E62B27;">Gasoil a domicili a Manresa &rarr;</span>
     </a>
-    <a href="gasoil-bergueda" style="text-decoration:none;background:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
+    <a href="gasoil-bergueda" style="text-decoration:none;background-color:#fff;border:1px solid #E7E3DB;border-radius:22px;padding:34px 32px;display:block;transition:all .18s;" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,21,24,.1);">
       <div style="font:700 12px/1 'Archivo';letter-spacing:.14em;text-transform:uppercase;color:#E62B27;margin-bottom:12px;">Base d'Avià</div>
       <h2 style="font:800 26px/1.1 'Archivo';margin:0 0 10px;color:#17191C;">Berguedà</h2>
       <p style="font:400 15px/1.55 'Hanken Grotesk';color:#6B6F76;margin:0 0 18px;">Gasoil A, B i C a domicili · lliurament habitual en 24-48 h · pressupost sense compromís.</p>
@@ -135,12 +135,12 @@
 </section>
 
 <!-- CTA BAND -->
-<section style="background:#E62B27;color:#fff;padding:64px 24px;">
+<section style="background-color:#E62B27;color:#fff;padding:64px 24px;">
   <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;">
     <h2 style="font:800 clamp(26px,3.2vw,40px)/1.08 'Archivo';letter-spacing:-.02em;margin:0;max-width:22ch;">No trobes la teva població? Pregunta'ns: segur que hi arribem</h2>
     <div style="display:flex;flex-wrap:wrap;gap:14px;">
-      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#17191C;font:800 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;" style-hover="transform:translateY(-2px);">WhatsApp · 670 06 05 55</a>
-      <a href="contacte" style="display:inline-flex;align-items:center;background:transparent;color:#fff;font:700 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.55);" style-hover="border-color:#fff;">Demana pressupost</a>
+      <a href="https://wa.me/34670060555" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;background-color:#fff;color:#17191C;font:800 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;" style-hover="transform:translateY(-2px);">WhatsApp · 670 06 05 55</a>
+      <a href="contacte" style="display:inline-flex;align-items:center;background-color:transparent;color:#fff;font:700 17px/1 'Archivo';padding:18px 28px;border-radius:999px;text-decoration:none;border:1.5px solid rgba(255,255,255,.55);" style-hover="border-color:#fff;">Demana pressupost</a>
     </div>
   </div>
 </section>
@@ -213,9 +213,9 @@ class Component extends DCLogic {
       return {
         active:a, town, onSelect:pick(id),
         wrap: "position:absolute;left:"+(p.x/10).toFixed(2)+"%;top:"+(p.y/7.8).toFixed(2)+"%;transform:translate(-50%,-50%);background:none;border:none;padding:0;cursor:pointer;z-index:6;",
-        halo: "position:absolute;top:50%;left:50%;width:42px;height:42px;border-radius:50%;background:rgba(230,43,39,.22);animation:pulsering 1.8s ease-out infinite;",
-        pinStyle: "position:relative;display:block;width:"+(a?28:20)+"px;height:"+(a?28:20)+"px;border-radius:50%;background:#E62B27;border:3px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.28);transition:all .18s;",
-        dotStyle: "position:absolute;top:50%;left:50%;width:"+(a?9:6)+"px;height:"+(a?9:6)+"px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);",
+        halo: "position:absolute;top:50%;left:50%;width:42px;height:42px;border-radius:50%;background-color:rgba(230,43,39,.22);animation:pulsering 1.8s ease-out infinite;",
+        pinStyle: "position:relative;display:block;width:"+(a?28:20)+"px;height:"+(a?28:20)+"px;border-radius:50%;background-color:#E62B27;border:3px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.28);transition:all .18s;",
+        dotStyle: "position:absolute;top:50%;left:50%;width:"+(a?9:6)+"px;height:"+(a?9:6)+"px;border-radius:50%;background-color:#fff;transform:translate(-50%,-50%);",
         townPos: "position:absolute;top:calc(100% + 3px);left:50%;transform:translateX(-50%);white-space:nowrap;font-family:Archivo,sans-serif;font-weight:800;font-size:12.5px;color:"+(a?'#fff':'#6F6A61')+";text-shadow:"+(a?'0 1px 4px rgba(0,0,0,.4)':'0 1px 3px rgba(231,237,239,.9)')+";pointer-events:none;",
       };
     });
@@ -228,9 +228,9 @@ class Component extends DCLogic {
       return {
         active:a, name:z.name, base:z.base, href:z.href, ctaArrow:z.cta+" →", onSelect:pick(id),
         rowStyle: "cursor:pointer;border-radius:16px;padding:16px 18px;transition:all .18s;"
-          + (a ? "background:#FCF6F5;border:1.5px solid #F0D5D1;box-shadow:0 8px 20px rgba(230,43,39,.07);" : "background:#fff;border:1px solid #ECE7DE;"),
+          + (a ? "background-color:#FCF6F5;border:1.5px solid #F0D5D1;box-shadow:0 8px 20px rgba(230,43,39,.07);" : "background-color:#fff;border:1px solid #ECE7DE;"),
         dotStyle: "width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:all .18s;"
-          + (a ? "background:"+R+";box-shadow:0 0 0 4px rgba(230,43,39,.16);" : "background:#fff;border:2px solid #E0A39E;"),
+          + (a ? "background-color:"+R+";box-shadow:0 0 0 4px rgba(230,43,39,.16);" : "background-color:#fff;border:2px solid #E0A39E;"),
       };
     });
 
