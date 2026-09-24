@@ -10,6 +10,29 @@ Options -MultiViews
 </IfModule>
 RewriteEngine On
 
+# --- Domini canònic: https://prosetel95.com (sense www) ---
+# Només actua amb el domini real; la web de proves (mialias.net) no es toca.
+
+RewriteCond %{HTTP_HOST} ^www\.prosetel95\.com$ [NC]
+RewriteRule ^ https://prosetel95.com%{REQUEST_URI} [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^prosetel95\.com$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://prosetel95.com%{REQUEST_URI} [R=301,L]
+
+# --- URLs de l'antiga web de Wix ---
+
+RewriteRule ^gasoila/?$ /gasoil-automocio [R=301,L]
+RewriteRule ^gasoilb/?$ /gasoil-agricola [R=301,L]
+RewriteRule ^gasoilc/?$ /gasoil-calefaccio [R=301,L]
+RewriteRule ^solsona/?$ /gasoil-solsona [R=301,L]
+RewriteRule ^lleida/?$ /gasoil-lleida [R=301,L]
+RewriteRule ^manresa/?$ /gasoil-manresa [R=301,L]
+RewriteRule ^copia-de-sant-salvador-de-guardiola/?$ /gasoil-bergueda [R=301,L]
+RewriteRule ^copia-de-gasoil-a/?$ /avis-legal [R=301,L]
+RewriteRule ^promocions/?$ / [R=301,L]
+
 # --- Redireccions 301 de les URLs antigues (només peticions del navegador) ---
 
 # Portada amb nom de fitxer -> /
