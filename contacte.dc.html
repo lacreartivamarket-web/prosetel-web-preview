@@ -266,8 +266,9 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-const FORMSPREE_COMANDES  = 'https://formspree.io/f/REPLACE_COMANDES';  // comandes@prosetel95.com
-const FORMSPREE_COMERCIAL = 'https://formspree.io/f/REPLACE_COMERCIAL'; // comercial@prosetel95.com
+// Enviament: formulari.php (al mateix servidor) desa la sol·licitud i l'envia a
+// comandes@prosetel95.com (particulars i comunitats) o comercial@prosetel95.com (empreses i agrícoles)
+const FORM_ENDPOINT = 'formulari.php';
 // Zona de servei verificada — dades oficials del client
 const ALL_VALID_CP = new Set([
   // ALT URGELL
@@ -436,14 +437,13 @@ class Component extends DCLogic {
       onSubmit: async ()=>{
         if(!s.name||!s.phone||!s.rgpd||s.submitting) return;
         this.setState({submitting:true,submitError:false});
-        const endpoint=(s.profile==='empresa'||s.profile==='agricol')?FORMSPREE_COMERCIAL:FORMSPREE_COMANDES;
         try{
           const pL={particular:'Particular',comunitat:'Comunitat',empresa:'Empresa',agricol:'Agrícola'};
           const prL={C:'Gasoil C',B:'Gasoil B',A:'Gasoil A','nosé':'Per definir'};
           const uL={urgent:'Urgent',normal:'2-4 dies',flexible:'Flexible'};
           const cL={si:'Sí',no:'No','nosé':'No ho sap'};
           const chL={whatsapp:'WhatsApp',telefon:'Telèfon',email:'Correu'};
-          const r=await fetch(endpoint,{
+          const r=await fetch(FORM_ENDPOINT,{
             method:'POST',
             headers:{'Content-Type':'application/json',Accept:'application/json'},
             body:JSON.stringify({
