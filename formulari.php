@@ -34,19 +34,22 @@ if (!is_array($dades)) respon(400, ['ok' => false]);
 // Camp trampa: invisible per a les persones, els robots l'omplen
 if (!empty($dades['web'])) respon(200, ['ok' => true]);
 
-$camps = ['Nom', 'Telefon', 'Correu', 'Perfil', 'Producte', 'Litres', 'Dipòsit',
-          'Codi postal', 'Urgència', 'És client', 'Canal preferit', 'Notes'];
+// Formulari de /contacte (complet) i formulari ràpid de la portada (sense nom ni perfil)
+$camps = ['Origen', 'Nom', 'Telefon', 'Correu', 'Perfil', 'Producte', 'Litres', 'Dipòsit',
+          'Codi postal', 'Urgència', 'Franja', 'És client', 'Canal preferit', 'Notes'];
 $f = [];
 foreach ($camps as $c) {
     $v = trim((string) ($dades[$c] ?? ''));
     $v = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/u', '', $v) ?? '';
     $f[$c] = mb_substr($v, 0, $c === 'Notes' ? 2000 : 200);
 }
-if ($f['Nom'] === '' || !preg_match('/\d{6,}/', preg_replace('/\D/', '', $f['Telefon']) ?? '')) {
-    respon(422, ['ok' => false]);
-}
+if (!preg_match('/\d{9,}/', preg_replace('/\D/', '', $f['Telefon']) ?? '')) respon(422, ['ok' => false]);
+if ($f['Origen'] === '') $f['Origen'] = 'Formulari de contacte';
 
-$tipus = in_array($f['Perfil'], ['Empresa', 'Agrícola'], true) ? 'comercial' : 'comandes';
+// Empreses i agrícoles a comercial@; sense perfil (portada), el gasoil B també hi va
+$tipus = in_array($f['Perfil'], ['Empresa', 'Agrícola'], true)
+      || ($f['Perfil'] === '' && str_starts_with($f['Producte'], 'Gasoil B'))
+    ? 'comercial' : 'comandes';
 $ip = $_SERVER['REMOTE_ADDR'] ?? '';
 
 try {
@@ -82,7 +85,8 @@ $capcaleres = [
 ];
 if (filter_var($f['Correu'], FILTER_VALIDATE_EMAIL)) $capcaleres[] = 'Reply-To: ' . $f['Correu'];
 
-$assumpte = 'Sol·licitud web: ' . $f['Nom'] . ($f['Producte'] !== '' ? ' · ' . $f['Producte'] : '');
+$assumpte = 'Sol·licitud web: ' . ($f['Nom'] !== '' ? $f['Nom'] : $f['Telefon'])
+          . ($f['Producte'] !== '' ? ' · ' . $f['Producte'] : '');
 $enviat = mail(DESTINATARIS[$tipus], '=?UTF-8?B?' . base64_encode($assumpte) . '?=', $cos,
                implode("\r\n", $capcaleres), '-f' . REMITENT);
 

@@ -422,6 +422,8 @@ class Component extends DCLogic {
       "Gasoil agrícola a peu de finca",
     ];
 
+    const tipusLabel = { C:"Gasoil C (calefacció)", B:"Gasoil B (agrícola)", A:"Gasoil A (automoció)" };
+
     const submit = (e)=>{
       e.preventDefault();
       const errs = {};
@@ -430,10 +432,21 @@ class Component extends DCLogic {
       const digits = (s.telefon||"").replace(/\D/g,"");
       if(digits.length < 9) errs.telefon = "Deixa un telèfon de contacte vàlid.";
       if(Object.keys(errs).length){ this.setState({ errors:errs }); return; }
-      this.setState({ sent:true });
+      if(s.sending) return;
+      this.setState({ sending:true });
+      // Mateix destí que el formulari de /contacte: formulari.php desa la sol·licitud i l'envia per correu
+      fetch('formulari.php',{
+        method:'POST',
+        headers:{'Content-Type':'application/json',Accept:'application/json'},
+        body:JSON.stringify({
+          Origen:'Formulari ràpid de la portada',
+          Telefon:s.telefon, 'Codi postal':s.cp, Producte:tipusLabel[s.tipus]||s.tipus,
+          Litres:s.litres||'—', Franja:s.franja||'—',
+        }),
+      })
+        .then(r=>{ if(!r.ok) throw new Error(); this.setState({ sent:true, sending:false }); })
+        .catch(()=>this.setState({ sending:false, errors:{ telefon:"No s'ha pogut enviar. Truca'ns al 973 48 12 68 o escriu-nos per WhatsApp." } }));
     };
-
-    const tipusLabel = { C:"Gasoil C (calefacció)", B:"Gasoil B (agrícola)", A:"Gasoil A (automoció)" };
 
     return {
       op0:s.slide===0?1:0, op1:s.slide===1?1:0, op2:s.slide===2?1:0, op3:s.slide===3?1:0,

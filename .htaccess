@@ -7,7 +7,12 @@ Options -MultiViews
   <FilesMatch "\.(html|js)$">
     Header set Cache-Control "no-cache"
   </FilesMatch>
+  # La web de proves no s'ha d'indexar (còpia del domini real)
+  Header always set X-Robots-Tag "noindex, nofollow" "expr=%{HTTP_HOST} =~ /mialias\.net$/"
 </IfModule>
+
+# robots.txt, llms.txt i sitemap.xml en UTF-8 (accents)
+AddCharset UTF-8 .txt .xml
 RewriteEngine On
 
 # --- Domini canònic: https://prosetel95.com (sense www) ---

@@ -1,0 +1,33 @@
+# Prosetel-95 · Gasoil a domicili a la Catalunya central
+# https://prosetel95.com
+
+# Tots els cercadors i assistents d'IA poden llegir el web sencer.
+# No es bloquegen support.js ni Header/Footer.dc.html: són necessaris
+# perquè els cercadors vegin la pàgina renderitzada.
+User-agent: *
+Allow: /
+Disallow: /blog-editor
+Disallow: /formulari.php
+
+# Cercadors i assistents d'IA (GEO): accés explícit
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Applebot
+User-agent: DuckDuckBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: MistralAI-User
+Allow: /
+Disallow: /blog-editor
+Disallow: /formulari.php
+
+Sitemap: https://prosetel95.com/sitemap.xml
