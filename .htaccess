@@ -21,10 +21,12 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.prosetel95\.com$ [NC]
 RewriteRule ^ https://prosetel95.com%{REQUEST_URI} [R=301,L]
 
-RewriteCond %{HTTP_HOST} ^prosetel95\.com$ [NC]
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP:X-Forwarded-Proto} !=https
-RewriteRule ^ https://prosetel95.com%{REQUEST_URI} [R=301,L]
+# DESACTIVAT TEMPORALMENT fins que CDMON activi el certificat SSL de prosetel95.com
+# (sense certificat, enviar a https mostra un avís de seguretat als visitants)
+# RewriteCond %{HTTP_HOST} ^prosetel95\.com$ [NC]
+# RewriteCond %{HTTPS} !=on
+# RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+# RewriteRule ^ https://prosetel95.com%{REQUEST_URI} [R=301,L]
 
 # --- URLs de l'antiga web de Wix ---
 
