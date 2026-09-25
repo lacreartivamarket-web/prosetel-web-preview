@@ -38,6 +38,10 @@ RewriteRule ^copia-de-sant-salvador-de-guardiola/?$ /gasoil-bergueda [R=301,L]
 RewriteRule ^copia-de-gasoil-a/?$ /avis-legal [R=301,L]
 RewriteRule ^promocions/?$ / [R=301,L]
 
+# --- Articles del blog que han canviat d'URL ---
+
+RewriteRule ^blog-article/?$ /blog-factura-gasoil-calefaccio [R=301,L]
+
 # --- Redireccions 301 de les URLs antigues (només peticions del navegador) ---
 
 # Portada amb nom de fitxer -> /

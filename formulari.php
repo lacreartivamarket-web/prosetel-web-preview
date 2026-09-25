@@ -1,6 +1,7 @@
 <?php
-// Rep les sol·licituds del formulari de /contacte: en desa una còpia a una base
-// de dades SQLite fora de la carpeta pública i l'envia per correu.
+// Rep les sol·licituds del formulari de /contacte i de la portada, i les subscripcions
+// al butlletí del blog: en desa una còpia a una base de dades SQLite fora de la carpeta
+// pública i l'envia per correu.
 declare(strict_types=1);
 
 const DESTINATARIS = [
@@ -33,6 +34,49 @@ if (!is_array($dades)) respon(400, ['ok' => false]);
 
 // Camp trampa: invisible per a les persones, els robots l'omplen
 if (!empty($dades['web'])) respon(200, ['ok' => true]);
+
+// Subscripció al butlletí del blog: només porta el correu (sense telèfon)
+if (($dades['Tipus'] ?? '') === 'Butlletí') {
+    $correu = mb_substr(trim((string) ($dades['Correu'] ?? '')), 0, 200);
+    if (!filter_var($correu, FILTER_VALIDATE_EMAIL)) respon(422, ['ok' => false]);
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+
+    try {
+        if (!is_dir(dirname(BD))) mkdir(dirname(BD), 0700, true);
+        $bd = new PDO('sqlite:' . BD, null, null, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $bd->exec('CREATE TABLE IF NOT EXISTS subscripcions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            data TEXT NOT NULL, ip TEXT, correu TEXT NOT NULL, correu_enviat INTEGER NOT NULL DEFAULT 0)');
+
+        $recents = $bd->prepare("SELECT COUNT(*) FROM subscripcions WHERE ip = ? AND data > datetime('now', '-1 hour')");
+        $recents->execute([$ip]);
+        if ((int) $recents->fetchColumn() >= MAX_PER_HORA) respon(429, ['ok' => false]);
+
+        $ins = $bd->prepare("INSERT INTO subscripcions (data, ip, correu) VALUES (datetime('now'), ?, ?)");
+        $ins->execute([$ip, $correu]);
+        $id = (int) $bd->lastInsertId();
+    } catch (Throwable $e) {
+        error_log('formulari.php BD (butlletí): ' . $e->getMessage());
+        $bd = null;
+        $id = 0;
+    }
+
+    $capcaleres = [
+        'From: =?UTF-8?B?' . base64_encode('Web Prosetel-95') . '?= <' . REMITENT . '>',
+        'Reply-To: ' . $correu,
+        'MIME-Version: 1.0',
+        'Content-Type: text/plain; charset=UTF-8',
+        'Content-Transfer-Encoding: 8bit',
+    ];
+    $cos = "Nova subscripció al butlletí del blog\n\nCorreu: $correu\n\nEnviat: " . date('d/m/Y H:i')
+         . ($id ? " · Núm. $id" : '') . "\n";
+    $enviat = mail(REMITENT, '=?UTF-8?B?' . base64_encode('Subscripció al butlletí: ' . $correu) . '?=', $cos,
+                   implode("\r\n", $capcaleres), '-f' . REMITENT);
+
+    if ($bd && $id) $bd->prepare('UPDATE subscripcions SET correu_enviat = ? WHERE id = ?')->execute([$enviat ? 1 : 0, $id]);
+    if (!$enviat) error_log("formulari.php: no s'ha pogut enviar el correu de la subscripció $id");
+    respon($enviat || $id ? 200 : 500, ['ok' => $enviat || $id > 0]);
+}
 
 // Formulari de /contacte (complet) i formulari ràpid de la portada (sense nom ni perfil)
 $camps = ['Origen', 'Nom', 'Telefon', 'Correu', 'Perfil', 'Producte', 'Litres', 'Dipòsit',
