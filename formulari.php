@@ -4,10 +4,7 @@
 // pública i l'envia per correu.
 declare(strict_types=1);
 
-const DESTINATARIS = [
-    'comandes'  => 'comandes@prosetel95.com',   // particulars i comunitats
-    'comercial' => 'comercial@prosetel95.com',  // empreses i agrícoles
-];
+const DESTINATARI = 'avia@prosetel95.com';  // tots els correus del web (sol·licituds i subscripcions)
 const REMITENT = 'info@prosetel95.com';
 const ORIGENS = ['prosetel95.com', 'www.prosetel95.com', 'prosetel95.com.mialias.net'];
 const MAX_PER_HORA = 5;  // enviaments per IP
@@ -70,7 +67,7 @@ if (($dades['Tipus'] ?? '') === 'Butlletí') {
     ];
     $cos = "Nova subscripció al butlletí del blog\n\nCorreu: $correu\n\nEnviat: " . date('d/m/Y H:i')
          . ($id ? " · Núm. $id" : '') . "\n";
-    $enviat = mail(REMITENT, '=?UTF-8?B?' . base64_encode('Subscripció al butlletí: ' . $correu) . '?=', $cos,
+    $enviat = mail(DESTINATARI, '=?UTF-8?B?' . base64_encode('Subscripció al butlletí: ' . $correu) . '?=', $cos,
                    implode("\r\n", $capcaleres), '-f' . REMITENT);
 
     if ($bd && $id) $bd->prepare('UPDATE subscripcions SET correu_enviat = ? WHERE id = ?')->execute([$enviat ? 1 : 0, $id]);
@@ -90,7 +87,8 @@ foreach ($camps as $c) {
 if (!preg_match('/\d{9,}/', preg_replace('/\D/', '', $f['Telefon']) ?? '')) respon(422, ['ok' => false]);
 if ($f['Origen'] === '') $f['Origen'] = 'Formulari de contacte';
 
-// Empreses i agrícoles a comercial@; sense perfil (portada), el gasoil B també hi va
+// Tot va a la mateixa bústia; el tipus (comercial: empreses i agrícoles, i gasoil B des de la portada;
+// comandes: particulars i comunitats) queda a l'assumpte per poder-ho triar d'una ullada
 $tipus = in_array($f['Perfil'], ['Empresa', 'Agrícola'], true)
       || ($f['Perfil'] === '' && str_starts_with($f['Producte'], 'Gasoil B'))
     ? 'comercial' : 'comandes';
@@ -129,9 +127,9 @@ $capcaleres = [
 ];
 if (filter_var($f['Correu'], FILTER_VALIDATE_EMAIL)) $capcaleres[] = 'Reply-To: ' . $f['Correu'];
 
-$assumpte = 'Sol·licitud web: ' . ($f['Nom'] !== '' ? $f['Nom'] : $f['Telefon'])
+$assumpte = 'Sol·licitud web (' . $tipus . '): ' . ($f['Nom'] !== '' ? $f['Nom'] : $f['Telefon'])
           . ($f['Producte'] !== '' ? ' · ' . $f['Producte'] : '');
-$enviat = mail(DESTINATARIS[$tipus], '=?UTF-8?B?' . base64_encode($assumpte) . '?=', $cos,
+$enviat = mail(DESTINATARI, '=?UTF-8?B?' . base64_encode($assumpte) . '?=', $cos,
                implode("\r\n", $capcaleres), '-f' . REMITENT);
 
 if ($bd && $id) $bd->prepare('UPDATE sollicituds SET correu_enviat = ? WHERE id = ?')->execute([$enviat ? 1 : 0, $id]);

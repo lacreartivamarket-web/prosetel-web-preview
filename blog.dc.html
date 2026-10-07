@@ -124,7 +124,7 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
-// Subscripció: formulari.php (al mateix servidor) desa el correu i n'avisa info@prosetel95.com
+// Subscripció: formulari.php (al mateix servidor) desa el correu i n'avisa avia@prosetel95.com
 const FORM_ENDPOINT = 'formulari.php';
 class Component extends DCLogic {
   state = { cat:'Tots', email:'', subscribed:false, subscribing:false, subError:'' };
@@ -178,7 +178,7 @@ class Component extends DCLogic {
           if(!r.ok) throw new Error();
           this.setState({subscribed:true,subscribing:false});
         }catch{
-          this.setState({subscribing:false,subError:"No s'ha pogut fer la subscripció. Torna-ho a provar d'aquí una estona o escriu-nos a info@prosetel95.com."});
+          this.setState({subscribing:false,subError:"No s'ha pogut fer la subscripció. Torna-ho a provar d'aquí una estona o escriu-nos a avia@prosetel95.com."});
         }
       },
       subError:this.state.subError,
