@@ -356,6 +356,13 @@
           <input type="tel" value="{{ telefon }}" onChange="{{ onTel }}" placeholder="Ex. 6XX XX XX XX" style="{{ telInputStyle }}">
           <sc-if value="{{ hasErrTel }}"><div style="font:600 13px/1.3 'Hanken Grotesk';color:#E62B27;margin-top:7px;">{{ errTel }}</div></sc-if>
         </div>
+        <div style="margin-bottom:18px;">
+          <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;">
+            <input type="checkbox" checked="{{ rgpd }}" onChange="{{ onRgpd }}" style="margin-top:2px;accent-color:#E62B27;width:16px;height:16px;flex-shrink:0;">
+            <span style="font:400 13.5px/1.5 'Hanken Grotesk';color:#7C8087;">Accepto la <a href="politica-privacitat" target="_blank" rel="noopener" style="color:#E62B27;">política de privacitat</a>. Prosetel-95 S.L.U. tracta les meves dades només per preparar i donar-me el pressupost.</span>
+          </label>
+          <sc-if value="{{ hasErrRgpd }}"><div style="font:600 13px/1.3 'Hanken Grotesk';color:#E62B27;margin-top:7px;">{{ errRgpd }}</div></sc-if>
+        </div>
         <button type="submit" style="width:100%;background-color:#E62B27;color:#fff;font:800 17px/1 'Archivo';padding:18px;border:none;border-radius:14px;cursor:pointer;" style-hover="background-color:#C61F1B;">Demana el pressupost</button>
         <p style="font:400 13px/1.5 'Hanken Grotesk';color:#9A9690;text-align:center;margin:14px 0 0;">En enviar acceptes que et contactem per donar-te el pressupost sense compromís.</p>
       </form>
@@ -396,7 +403,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { slide:0, menu:false, gasoil:false, cp:'', tipus:'', litres:'', franja:'', telefon:'', errors:{}, sent:false };
+  state = { slide:0, menu:false, gasoil:false, cp:'', tipus:'', litres:'', franja:'', telefon:'', rgpd:false, errors:{}, sent:false };
 
   componentDidMount(){
     this._t = setInterval(()=>{
@@ -439,6 +446,7 @@ class Component extends DCLogic {
       if(!s.tipus) errs.tipus = "Tria el tipus de gasoil.";
       const digits = (s.telefon||"").replace(/\D/g,"");
       if(digits.length < 9) errs.telefon = "Deixa un telèfon de contacte vàlid.";
+      if(!s.rgpd) errs.rgpd = "Has d'acceptar la política de privacitat per enviar la sol·licitud.";
       if(Object.keys(errs).length){ this.setState({ errors:errs }); return; }
       if(s.sending) return;
       this.setState({ sending:true });
@@ -480,12 +488,13 @@ class Component extends DCLogic {
       pickMati:()=>set({franja:'Matí'}), pickTarda:()=>set({franja:'Tarda'}),
       franjaMati:franjaStyle('Matí'), franjaTarda:franjaStyle('Tarda'),
 
-      hasErrCp:!!s.errors.cp, hasErrTipus:!!s.errors.tipus, hasErrTel:!!s.errors.telefon,
-      errCp:s.errors.cp||'', errTipus:s.errors.tipus||'', errTel:s.errors.telefon||'',
+      rgpd:s.rgpd, onRgpd:(e)=>set({rgpd:e.target.checked, errors:{...s.errors, rgpd:undefined}}),
+      hasErrCp:!!s.errors.cp, hasErrTipus:!!s.errors.tipus, hasErrTel:!!s.errors.telefon, hasErrRgpd:!!s.errors.rgpd,
+      errCp:s.errors.cp||'', errTipus:s.errors.tipus||'', errTel:s.errors.telefon||'', errRgpd:s.errors.rgpd||'',
 
       onSubmit:submit, sent:s.sent, notSent:!s.sent,
       resumCp:s.cp||'—', resumTipus: tipusLabel[s.tipus]||'—',
-      reset:()=>set({sent:false,cp:'',tipus:'',litres:'',franja:'',telefon:'',errors:{}}),
+      reset:()=>set({sent:false,cp:'',tipus:'',litres:'',franja:'',telefon:'',rgpd:false,errors:{}}),
     };
   }
 }

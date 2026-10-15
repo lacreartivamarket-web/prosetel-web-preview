@@ -108,10 +108,14 @@
         <input type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="El teu correu electrònic" style="flex:1;min-width:220px;padding:17px 18px;border-radius:12px;border:1.5px solid rgba(255,255,255,.2);background-color:rgba(255,255,255,.06);color:#fff;font:500 16px/1.2 'Hanken Grotesk';outline:none;">
         <button type="submit" style="background-color:#E62B27;color:#fff;font:800 16px/1 'Archivo';padding:17px 26px;border:none;border-radius:12px;cursor:pointer;" style-hover="background-color:#C61F1B;">Subscriu-me</button>
       </form>
+      <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;margin:14px 0 0;">
+        <input type="checkbox" checked="{{ rgpd }}" onChange="{{ onRgpd }}" style="margin-top:2px;accent-color:#E62B27;width:16px;height:16px;flex-shrink:0;">
+        <span style="font:400 13px/1.5 'Hanken Grotesk';color:rgba(255,255,255,.62);">Accepto la <a href="politica-privacitat" target="_blank" rel="noopener" style="color:rgba(255,255,255,.85);" style-hover="color:#fff;">política de privacitat</a> i rebre el butlletí de Prosetel-95 al meu correu.</span>
+      </label>
       <sc-if value="{{ hasSubError }}">
       <p role="alert" style="font:600 14px/1.5 'Hanken Grotesk';color:#FF8A82;margin:12px 0 0;">{{ subError }}</p>
       </sc-if>
-      <p style="font:400 13px/1.5 'Hanken Grotesk';color:rgba(255,255,255,.5);margin:12px 0 0;">Un correu de tant en tant amb consells útils. Pots donar-te de baixa quan vulguis. Més informació a la <a href="politica-privacitat" style="color:rgba(255,255,255,.75);" style-hover="color:#fff;">política de privacitat</a>.</p>
+      <p style="font:400 13px/1.5 'Hanken Grotesk';color:rgba(255,255,255,.5);margin:12px 0 0;">Un correu de tant en tant amb consells útils. Pots donar-te de baixa quan vulguis.</p>
       </sc-if>
       <sc-if value="{{ subscribed }}">
       <div style="background-color:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:22px 24px;font:600 16px/1.5 'Hanken Grotesk';color:#fff;animation:fadein .3s ease;">Gràcies! T'hem afegit a la llista. Aviat rebràs els nostres consells.</div>
@@ -127,7 +131,7 @@
 // Subscripció: formulari.php (al mateix servidor) desa el correu i n'avisa avia@prosetel95.com
 const FORM_ENDPOINT = 'formulari.php';
 class Component extends DCLogic {
-  state = { cat:'Tots', email:'', subscribed:false, subscribing:false, subError:'' };
+  state = { cat:'Tots', email:'', rgpd:false, subscribed:false, subscribing:false, subError:'' };
 
   renderVals(){
     const A = '#1F8A3B', C = '#E62B27', N = '#17191C';
@@ -167,11 +171,14 @@ class Component extends DCLogic {
       countLabel,
       email:this.state.email,
       onEmail:(e)=>this.setState({email:e.target.value}),
+      rgpd:this.state.rgpd,
+      onRgpd:(e)=>this.setState({rgpd:e.target.checked, subError:''}),
       onSubscribe: async (e)=>{
         e.preventDefault();
         const em=(this.state.email||'').trim();
         if(this.state.subscribing) return;
         if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ this.setState({subError:'Escriu un correu electrònic vàlid.'}); return; }
+        if(!this.state.rgpd){ this.setState({subError:"Has d'acceptar la política de privacitat per subscriure't."}); return; }
         this.setState({subscribing:true,subError:''});
         try{
           const r = await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({Tipus:'Butlletí',Correu:em})});
