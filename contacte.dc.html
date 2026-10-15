@@ -273,6 +273,9 @@
 <script type="text/x-dc" data-dc-script>
 // Enviament: formulari.php (al mateix servidor) desa la sol·licitud i l'envia a avia@prosetel95.com
 const FORM_ENDPOINT = 'formulari.php';
+// Text exacte de la casella de consentiment: viatja amb la sol·licitud com a prova del
+// consentiment (RGPD art. 7.1). Si es canvia aquí, canvia'l també a la casella del formulari.
+const RGPD_TEXT = "Accepto la política de privacitat. Les dades s'utilitzen únicament per gestionar la meva sol·licitud.";
 // Zona de servei verificada — dades oficials del client
 const ALL_VALID_CP = new Set([
   // ALT URGELL
@@ -457,6 +460,7 @@ class Component extends DCLogic {
               'Codi postal':s.postal,Urgència:uL[s.urgency],
               'És client':cL[s.isClient]||s.isClient,
               'Canal preferit':chL[s.channel],Notes:s.notes||'—',
+              Consentiment:{ acceptat:true, data:new Date().toISOString(), text:RGPD_TEXT, pagina:location.href },
             }),
           });
           if(r.ok) this.setState({submitted:true,submitting:false});

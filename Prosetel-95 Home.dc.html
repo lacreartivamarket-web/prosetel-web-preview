@@ -52,12 +52,6 @@
 
 <div data-screen-label="Home" style="position:relative;overflow-x:hidden;">
 
-<!-- ===== Floating WhatsApp ===== -->
-<a href="https://wa.me/34690222024" target="_blank" rel="noopener noreferrer" aria-label="Xat per WhatsApp · Demana pressupost" style="position:fixed;right:18px;bottom:18px;z-index:300;display:inline-flex;align-items:center;gap:9px;background-color:#E62B27;color:#fff;font:700 14px/1 'Archivo';padding:14px 18px;border-radius:999px;text-decoration:none;box-shadow:0 12px 30px rgba(230,43,39,.4);" style-hover="background-color:#C61F1B;">
-  <span aria-hidden="true" style="width:9px;height:9px;border-radius:50%;background-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.35);"></span>
-  Demana pressupost
-</a>
-
 <!-- ===== HEADER ===== -->
 <header style="position:sticky;top:0;z-index:200;background-color:rgba(247,245,241,.88);backdrop-filter:blur(12px);border-bottom:1px solid #E7E3DB;">
   <div style="max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;">
@@ -402,6 +396,9 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+// Text exacte de la casella de consentiment: viatja amb la sol·licitud com a prova del
+// consentiment (RGPD art. 7.1). Si es canvia aquí, canvia'l també a la casella del formulari.
+const RGPD_TEXT = 'Accepto la política de privacitat. Prosetel-95 S.L.U. tracta les meves dades només per preparar i donar-me el pressupost.';
 class Component extends DCLogic {
   state = { slide:0, menu:false, gasoil:false, cp:'', tipus:'', litres:'', franja:'', telefon:'', rgpd:false, errors:{}, sent:false };
 
@@ -458,6 +455,7 @@ class Component extends DCLogic {
           Origen:'Formulari ràpid de la portada',
           Telefon:s.telefon, 'Codi postal':s.cp, Producte:tipusLabel[s.tipus]||s.tipus,
           Litres:s.litres||'—', Franja:s.franja||'—',
+          Consentiment:{ acceptat:true, data:new Date().toISOString(), text:RGPD_TEXT, pagina:location.href },
         }),
       })
         .then(r=>{ if(!r.ok) throw new Error(); this.setState({ sent:true, sending:false }); })
